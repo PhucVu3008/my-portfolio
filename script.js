@@ -1,14 +1,12 @@
-// ── Nav: scroll + mobile toggle + active links ─────────────────
+// ── Nav: scroll class + mobile toggle + active links ──────────
 const nav       = document.querySelector('.nav');
 const navToggle = document.getElementById('nav-toggle');
 const navLinks  = document.getElementById('nav-links');
 
-// Scrolled class for nav frosted glass
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 40);
 }, { passive: true });
 
-// Mobile toggle
 if (navToggle && navLinks) {
   navToggle.addEventListener('click', () => {
     const isOpen = navLinks.classList.toggle('open');
@@ -24,10 +22,8 @@ if (navToggle && navLinks) {
   });
 }
 
-// Active nav link on scroll
 const sections    = document.querySelectorAll('section[id]');
 const allNavLinks = document.querySelectorAll('.nav-links a');
-
 function updateActiveLink() {
   let current = '';
   sections.forEach(s => {
@@ -41,17 +37,163 @@ window.addEventListener('scroll', updateActiveLink, { passive: true });
 updateActiveLink();
 
 
-// ── Reveal on scroll (IntersectionObserver) ───────────────────
+// ── Reveal on scroll ──────────────────────────────────────────
 const revealObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      revealObserver.unobserve(entry.target);
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObserver.unobserve(e.target);
     }
   });
 }, { threshold: 0.12 });
-
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+
+// ── Skills stagger ────────────────────────────────────────────
+const skillsSection = document.getElementById('skills');
+if (skillsSection) {
+  const skillObs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      document.querySelectorAll('.skills-list li').forEach((li, i) => {
+        li.style.transitionDelay = `${i * 40}ms`;
+        li.classList.add('visible');
+      });
+      skillObs.disconnect();
+    }
+  }, { threshold: 0.15 });
+  skillObs.observe(skillsSection);
+}
+
+
+// ── ASCII Art: per-character interactive animation ────────────
+function initAsciiArt() {
+  const pre = document.querySelector('.hero-ascii-art');
+  if (!pre) return;
+
+  // Split text into per-char spans preserving whitespace
+  const rawText = pre.textContent;
+  pre.textContent = '';
+
+  const lines = rawText.split('\n');
+  lines.forEach(line => {
+    const lineDiv = document.createElement('div');
+    lineDiv.style.cssText = 'white-space:pre; line-height:inherit;';
+    [...line].forEach(ch => {
+      const span = document.createElement('span');
+      span.textContent = ch;
+      // Only animate non-space chars
+      if (ch.trim() !== '') {
+        span.className = 'ascii-char';
+      }
+      lineDiv.appendChild(span);
+    });
+    pre.appendChild(lineDiv);
+  });
+
+  const chars = Array.from(pre.querySelectorAll('.ascii-char'));
+  if (!chars.length) return;
+
+  let isMouseOver = false;
+  let idleTimer   = null;
+  let idleTimeouts = [];
+
+  // ── Mouse interaction ──────────────────────────────────────
+  const MAX_DIST   = 90;   // px radius of influence
+  const MAX_SCALE  = 2.2;  // char under cursor
+  const MIN_SCALE  = 0.75; // chars far away
+
+  function applyMouseEffect(mx, my) {
+    chars.forEach(span => {
+      const r  = span.getBoundingClientRect();
+      const cx = r.left + r.width  / 2;
+      const cy = r.top  + r.height / 2;
+      const d  = Math.sqrt((mx - cx) ** 2 + (my - cy) ** 2);
+      const t  = Math.max(0, 1 - d / MAX_DIST);          // 0→1, 1 = closest
+      const scale   = MIN_SCALE + (MAX_SCALE - MIN_SCALE) * t;
+      const opacity = 0.25 + 0.75 * t;
+      const glow    = t > 0.15
+        ? `0 0 ${t * 18}px rgba(253,252,252,${(t * 0.9).toFixed(2)})`
+        : 'none';
+
+      span.style.transform   = `scale(${scale.toFixed(3)})`;
+      span.style.opacity     = opacity.toFixed(3);
+      span.style.textShadow  = glow;
+      span.style.color       = t > 0.4
+        ? '#ffffff'
+        : `rgba(253,252,252,${(0.5 + t * 0.5).toFixed(2)})`;
+    });
+  }
+
+  function resetChars() {
+    chars.forEach(span => {
+      span.style.transform  = '';
+      span.style.opacity    = '';
+      span.style.textShadow = '';
+      span.style.color      = '';
+    });
+  }
+
+  pre.addEventListener('mousemove', e => {
+    isMouseOver = true;
+    stopIdle();
+    applyMouseEffect(e.clientX, e.clientY);
+  });
+
+  pre.addEventListener('mouseleave', () => {
+    isMouseOver = false;
+    resetChars();
+    startIdle();
+  });
+
+  // ── Idle random pulse ──────────────────────────────────────
+  function pulseChar(span) {
+    const scale = 1.25 + Math.random() * 0.95;   // 1.25 → 2.2
+    span.style.transform  = `scale(${scale.toFixed(2)})`;
+    span.style.textShadow = `0 0 12px rgba(253,252,252,0.65)`;
+    span.style.color      = '#ffffff';
+
+    const tid = setTimeout(() => {
+      if (!isMouseOver) {
+        span.style.transform  = '';
+        span.style.textShadow = '';
+        span.style.color      = '';
+      }
+    }, 350 + Math.random() * 350);
+    idleTimeouts.push(tid);
+  }
+
+  function idleTick() {
+    if (isMouseOver) return;
+    // Pulse 2-4 random chars per tick
+    const count = 2 + Math.floor(Math.random() * 3);
+    for (let i = 0; i < count; i++) {
+      const delay = i * 90;
+      const tid = setTimeout(() => {
+        if (!isMouseOver) {
+          pulseChar(chars[Math.floor(Math.random() * chars.length)]);
+        }
+      }, delay);
+      idleTimeouts.push(tid);
+    }
+  }
+
+  function startIdle() {
+    stopIdle();
+    idleTick(); // fire immediately
+    idleTimer = setInterval(idleTick, 380);
+  }
+
+  function stopIdle() {
+    clearInterval(idleTimer);
+    idleTimeouts.forEach(clearTimeout);
+    idleTimeouts = [];
+  }
+
+  // Start idle after hero entrance animation settles
+  setTimeout(startIdle, 1200);
+}
+
+initAsciiArt();
 
 
 // ── Typed terminal command ─────────────────────────────────────
@@ -62,56 +204,32 @@ const commands = [
   'pip install torch torchvision opencv-python',
   'python evaluate.py --checkpoint best_model.pth',
 ];
-
 let cmdIndex   = 0;
 let charIndex  = 0;
 let isDeleting = false;
-let typePause  = false;
-
-const cmdEl = document.getElementById('typed-cmd');
+let typePaused = false;
+const cmdEl    = document.getElementById('typed-cmd');
 
 function type() {
   if (!cmdEl) return;
   const current = commands[cmdIndex];
-
   if (!isDeleting) {
-    cmdEl.textContent = current.slice(0, charIndex + 1);
-    charIndex++;
+    cmdEl.textContent = current.slice(0, ++charIndex);
     if (charIndex === current.length) {
-      typePause = true;
-      setTimeout(() => { typePause = false; isDeleting = true; requestAnimationFrame(tick); }, 2200);
+      typePaused = true;
+      setTimeout(() => { typePaused = false; isDeleting = true; scheduleType(); }, 2200);
       return;
     }
   } else {
-    cmdEl.textContent = current.slice(0, charIndex - 1);
-    charIndex--;
+    cmdEl.textContent = current.slice(0, --charIndex);
     if (charIndex === 0) {
       isDeleting = false;
-      cmdIndex = (cmdIndex + 1) % commands.length;
+      cmdIndex   = (cmdIndex + 1) % commands.length;
     }
   }
-
-  const speed = isDeleting ? 30 : 65;
-  setTimeout(() => requestAnimationFrame(tick), speed);
+  scheduleType();
 }
-
-function tick() { if (!typePause) type(); }
-
-// Start after hero animations settle
-setTimeout(tick, 1600);
-
-
-// ── Skills stagger on section enter ───────────────────────────
-const skillsSection = document.getElementById('skills');
-if (skillsSection) {
-  const skillObserver = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) {
-      document.querySelectorAll('.skills-list li').forEach((li, i) => {
-        li.style.transitionDelay = `${i * 40}ms`;
-        li.classList.add('visible');
-      });
-      skillObserver.disconnect();
-    }
-  }, { threshold: 0.15 });
-  skillObserver.observe(skillsSection);
+function scheduleType() {
+  if (!typePaused) setTimeout(type, isDeleting ? 28 : 62);
 }
+setTimeout(type, 1800);
