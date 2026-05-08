@@ -40,6 +40,142 @@
   --dur-xl:     900ms;
 }
 
+/* ── Dark Mode ──────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --color-ink:               #f0edec;
+  --color-ink-deep:          #ffffff;
+  --color-charcoal:          #d0cccc;
+  --color-body:              #b0acac;
+  --color-mute:              #888585;
+  --color-stone:             #777474;
+  --color-ash:               #555252;
+  --color-canvas:            #0f0e0e;
+  --color-surface-soft:      #161414;
+  --color-surface-card:      #1e1b1b;
+  --color-surface-dark:      #201d1d;
+  --color-surface-dark-elev: #302c2c;
+  --color-hairline:          rgba(253,252,252,0.08);
+  --color-hairline-strong:   #444141;
+  --color-on-dark:           #fdfcfc;
+  --color-on-dark-mute:      #9a9898;
+}
+
+[data-theme="dark"] .nav {
+  background-color: rgba(15,14,14,0.88);
+}
+[data-theme="dark"] .nav.scrolled {
+  background-color: rgba(15,14,14,0.96);
+}
+[data-theme="dark"] .nav-links.open {
+  background-color: rgba(15,14,14,0.97);
+}
+[data-theme="dark"] .btn-secondary {
+  background-color: var(--color-surface-card);
+  border-color: var(--color-hairline-strong);
+}
+[data-theme="dark"] .btn-secondary:hover {
+  background-color: var(--color-surface-soft);
+}
+[data-theme="dark"] .project-item,
+[data-theme="dark"] .exp-item,
+[data-theme="dark"] .edu-item {
+  border-color: var(--color-hairline);
+}
+
+/* Dark mode toggle button */
+.theme-toggle {
+  background: none; border: none; cursor: pointer;
+  font-family: var(--font); font-size: 14px; font-weight: 500;
+  color: var(--color-mute); padding: var(--sp-xs) var(--sp-sm);
+  transition: color var(--dur-fast) ease;
+  white-space: nowrap;
+}
+.theme-toggle:hover { color: var(--color-ink); }
+
+/* ── Back to Top ─────────────────────────────────────────────── */
+.back-to-top {
+  position: fixed; bottom: 28px; right: 28px; z-index: 300;
+  background: var(--color-ink); color: var(--color-canvas);
+  border: none; cursor: pointer;
+  font-family: var(--font); font-size: 14px; font-weight: 700;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--r-sm);
+  opacity: 0; pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity var(--dur-normal) ease,
+              transform var(--dur-normal) ease,
+              background-color var(--dur-fast) ease;
+}
+.back-to-top.visible {
+  opacity: 1; pointer-events: auto; transform: translateY(0);
+}
+.back-to-top:hover { background: var(--color-charcoal); }
+
+/* ── Certifications ──────────────────────────────────────────── */
+.cert-list {
+  display: flex; flex-direction: column; gap: var(--sp-xxl);
+}
+.cert-item {
+  display: grid; grid-template-columns: 200px 1fr;
+  gap: var(--sp-xxl);
+  padding-bottom: var(--sp-xxl);
+  border-bottom: 1px solid var(--color-hairline);
+}
+.cert-item:last-child { border-bottom: none; padding-bottom: 0; }
+.cert-meta { font-size: 14px; color: var(--color-mute); }
+.cert-meta p + p { margin-top: var(--sp-xs); }
+.cert-name {
+  font-size: 16px; font-weight: 700; color: var(--color-ink);
+  margin-bottom: var(--sp-sm);
+}
+.cert-issuer { font-size: 14px; color: var(--color-mute); margin-bottom: var(--sp-sm); }
+.cert-desc { font-size: 14px; color: var(--color-body); line-height: 1.6; }
+.cert-link {
+  display: inline-block; margin-top: var(--sp-sm);
+  font-size: 14px; color: var(--color-mute);
+  text-decoration: underline;
+  transition: color var(--dur-fast) ease;
+}
+.cert-link:hover { color: var(--color-ink); }
+
+/* ── Print styles ────────────────────────────────────────────── */
+@media print {
+  * { animation: none !important; transition: none !important; }
+
+  .nav, .hero, .back-to-top, .theme-toggle,
+  .hero-scroll, .hero-tui-bottom, .hero-scanlines { display: none !important; }
+
+  body {
+    padding-top: 0;
+    background: #fff;
+    color: #000;
+    font-size: 12px;
+  }
+
+  .section { border-top: 1px solid #ccc; padding: 20px 0; }
+  .section-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .section-label::after { background: #ccc; }
+
+  a { color: #000; text-decoration: none; }
+  a[href]::after { content: " (" attr(href) ")"; font-size: 10px; color: #555; }
+  a[href^="#"]::after,
+  a[href^="mailto:"]::after { content: ""; }
+
+  .project-item, .exp-item, .edu-item, .cert-item {
+    break-inside: avoid;
+    grid-template-columns: 140px 1fr;
+    gap: 16px;
+    padding-bottom: 12px;
+  }
+
+  .project-links a::after { display: none; }
+  .btn-primary, .btn-secondary { display: none !important; }
+
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+  .contact-headline { font-size: 20px; }
+}
+
 /* ── Reset ──────────────────────────────────────────────────── */
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
 
@@ -570,6 +706,7 @@ a:hover { text-decoration:underline; }
 /* ── Responsive ──────────────────────────────────────────────── */
 @media (max-width:768px) {
   .nav-links, .nav .btn-primary { display:none; }
+  .theme-toggle { display:none; }
 
   .nav-links.open {
     display:flex; flex-direction:column;
@@ -581,6 +718,9 @@ a:hover { text-decoration:underline; }
     z-index:199;
     animation:slideDown var(--dur-normal) var(--ease-out-expo);
   }
+  [data-theme="dark"] .nav-links.open {
+    background-color:rgba(15,14,14,0.97);
+  }
   @keyframes slideDown {
     from { opacity:0; transform:translateY(-8px); }
     to   { opacity:1; transform:translateY(0); }
@@ -591,15 +731,16 @@ a:hover { text-decoration:underline; }
   .hero-ascii-art { font-size:clamp(5px, 1.8vw, 9px); }
   .hero-tui-chrome { padding:10px 16px; }
 
-  .exp-item, .edu-item, .project-item {
+  .exp-item, .edu-item, .project-item, .cert-item {
     grid-template-columns:1fr; gap:var(--sp-sm);
   }
-  .exp-meta, .edu-meta, .project-meta {
+  .exp-meta, .edu-meta, .project-meta, .cert-meta {
     display:flex; gap:var(--sp-lg); align-items:baseline;
   }
   .skills-grid { grid-template-columns:1fr 1fr; }
   .footer-inner { flex-direction:column; align-items:flex-start; }
   .footer-links { flex-wrap:wrap; gap:var(--sp-lg); }
+  .back-to-top { bottom:16px; right:16px; }
 }
 
 @media (max-width:480px) {

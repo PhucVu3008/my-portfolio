@@ -1,3 +1,31 @@
+// ── Dark Mode ─────────────────────────────────────────────────
+const themeToggle = document.getElementById('theme-toggle');
+const savedTheme  = localStorage.getItem('theme');
+if (savedTheme) {
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  if (themeToggle) themeToggle.textContent = savedTheme === 'dark' ? '[light]' : '[dark]';
+}
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next    = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    themeToggle.textContent = next === 'dark' ? '[light]' : '[dark]';
+  });
+}
+
+// ── Back to Top ───────────────────────────────────────────────
+const backToTop = document.getElementById('back-to-top');
+if (backToTop) {
+  window.addEventListener('scroll', () => {
+    backToTop.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
 // ── Nav: scroll class + mobile toggle + active links ──────────
 const nav       = document.querySelector('.nav');
 const navToggle = document.getElementById('nav-toggle');
