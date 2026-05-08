@@ -37,12 +37,98 @@ window.addEventListener('scroll', updateActiveLink, { passive: true });
 updateActiveLink();
 
 
+// ── Typewriter reveal ─────────────────────────────────────────
+const TW_SELECTORS = [
+  '.section-label',
+  '.about-text',
+  '.contact-headline',
+  '.contact-sub',
+];
+function isTypewriterEl(el) {
+  return TW_SELECTORS.some(sel => el.matches(sel));
+}
+
+function typewriterReveal(el) {
+  // Tokenise innerHTML: chars + <br> + <span> wrappers preserved
+  const originalHTML = el.innerHTML;
+  const tmp = document.createElement('div');
+  tmp.innerHTML = originalHTML;
+
+  // Flatten to tokens [{type:'char'|'br'|'open'|'close', ...}]
+  const tokens = [];
+  function walk(node) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      [...node.textContent].forEach(c => tokens.push({ type: 'char', val: c }));
+    } else if (node.nodeName === 'BR') {
+      tokens.push({ type: 'br' });
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      tokens.push({ type: 'open', tag: node.nodeName, attr: node.getAttribute('class') });
+      node.childNodes.forEach(walk);
+      tokens.push({ type: 'close', tag: node.nodeName });
+    }
+  }
+  tmp.childNodes.forEach(walk);
+
+  el.innerHTML = '';
+  el.classList.add('tw-active');
+
+  // Build output: maintain a stack of current container elements
+  const cursor = document.createElement('span');
+  cursor.className = 'tw-cursor';
+  el.appendChild(cursor);
+  let currentParent = el;
+  const stack = [];
+
+  // Speed: aim ≤ 1.8s for any length
+  const charCount = tokens.filter(t => t.type === 'char').length;
+  const speed = Math.min(52, Math.max(16, Math.floor(1600 / Math.max(charCount, 1))));
+
+  let i = 0;
+  function tick() {
+    if (i >= tokens.length) {
+      setTimeout(() => cursor.remove(), 700);
+      return;
+    }
+    const t = tokens[i++];
+    if (t.type === 'char') {
+      currentParent.insertBefore(document.createTextNode(t.val), cursor);
+    } else if (t.type === 'br') {
+      currentParent.insertBefore(document.createElement('br'), cursor);
+    } else if (t.type === 'open') {
+      const wrap = document.createElement(t.tag);
+      if (t.attr) wrap.className = t.attr;
+      currentParent.insertBefore(wrap, cursor);
+      // Move cursor inside new container
+      wrap.appendChild(cursor);
+      stack.push(currentParent);
+      currentParent = wrap;
+    } else if (t.type === 'close') {
+      currentParent = stack.pop() || el;
+      currentParent.insertBefore(cursor, null); // move cursor back up
+    }
+    // Only delay on char tokens; structural tokens are instant
+    if (t.type === 'char') {
+      setTimeout(tick, speed);
+    } else {
+      tick();
+    }
+  }
+  tick();
+}
+
 // ── Reveal on scroll ──────────────────────────────────────────
 const revealObserver = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      revealObserver.unobserve(e.target);
+      const el = e.target;
+      revealObserver.unobserve(el);
+      // Respect transition-delay for non-typewriter elements
+      const delay = parseFloat(getComputedStyle(el).transitionDelay) * 1000 || 0;
+      if (isTypewriterEl(el)) {
+        setTimeout(() => typewriterReveal(el), delay);
+      } else {
+        el.classList.add('visible');
+      }
     }
   });
 }, { threshold: 0.12 });
