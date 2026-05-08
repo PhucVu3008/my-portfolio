@@ -286,12 +286,13 @@ initAsciiArt();
 
 // ── Typed terminal command ─────────────────────────────────────
 const commands = [
-  'npm run dev  # fastify backend on :3001',
-  'git commit -m "feat: add pgvector semantic search"',
-  'docker compose up -d --build',
-  'python train.py --model arcface --epochs 30',
-  'gh workflow run deploy.yml --ref main',
-  'psql -c "CREATE INDEX ON embeddings USING ivfflat (vec vector_cosine_ops)"',
+  '// "Any fool can write code that a computer can understand."',
+  '// "First, solve the problem. Then, write the code." — John Johnson',
+  '// "Talk is cheap. Show me the code." — Linus Torvalds',
+  '// "Programs must be written for people to read." — Abelson & Sussman',
+  '// "Make it work, make it right, make it fast." — Kent Beck',
+  '// "Simplicity is the soul of efficiency." — Austin Freeman',
+  '// "The best error message is the one that never shows up."',
 ];
 let cmdIndex   = 0;
 let charIndex  = 0;
