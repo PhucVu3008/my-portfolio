@@ -58,7 +58,9 @@ function typewriterReveal(el) {
   // 3. Walk DOM and wrap every non-whitespace char in a .tw-ch span
   function wrapNode(node) {
     if (node.nodeType === Node.TEXT_NODE) {
-      if (!node.textContent) return;
+      // Skip pure-whitespace nodes — they are structural (grid/flex gaps)
+      // and must NOT become extra grid/flex items
+      if (!node.textContent.trim()) return;
       const parent = node.parentNode;
       // Outer wrapper = one flex/grid item; chars live inside it → no gap between chars
       const outer = document.createElement('span');
