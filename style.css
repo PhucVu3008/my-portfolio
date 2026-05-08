@@ -272,22 +272,24 @@ a:hover { text-decoration:underline; }
 
 .nav .container {
   width:100%; max-width:var(--content-width);
-  display:flex; align-items:center; justify-content:space-between;
+  display:flex; align-items:center;
+  justify-content:space-between; gap:var(--sp-xl);
 }
 
 .nav-wordmark {
-  font-size:16px; font-weight:700; color:var(--color-ink);
-  white-space:nowrap;
+  font-size:15px; font-weight:700; color:var(--color-ink);
+  white-space:nowrap; flex-shrink:0;
   transition:opacity var(--dur-fast) ease;
 }
 .nav-wordmark:hover { opacity:0.7; text-decoration:none; }
 
 .nav-links {
-  display:flex; align-items:center; gap:var(--sp-xl); list-style:none;
+  display:flex; align-items:center; gap:var(--sp-lg); list-style:none;
+  flex:1; justify-content:center;
 }
 .nav-links a {
-  font-size:16px; font-weight:500; color:var(--color-ink);
-  position:relative; padding-bottom:2px;
+  font-size:14px; font-weight:500; color:var(--color-ink);
+  position:relative; padding-bottom:2px; white-space:nowrap;
 }
 .nav-links a::after {
   content:''; position:absolute; bottom:0; left:0;
@@ -297,6 +299,11 @@ a:hover { text-decoration:underline; }
 .nav-links a:hover::after,
 .nav-links a.active::after { width:100%; }
 .nav-links a:hover { text-decoration:none; }
+
+.nav-right {
+  display:flex; align-items:center; gap:var(--sp-md);
+  flex-shrink:0;
+}
 
 /* ── Hero — Fullscreen Terminal ─────────────────────────────── */
 .hero { position:relative; }
@@ -705,8 +712,7 @@ a:hover { text-decoration:underline; }
 
 /* ── Responsive ──────────────────────────────────────────────── */
 @media (max-width:768px) {
-  .nav-links, .nav .btn-primary { display:none; }
-  .theme-toggle { display:none; }
+  .nav-links, .nav-right { display:none; }
 
   .nav-links.open {
     display:flex; flex-direction:column;
