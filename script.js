@@ -53,18 +53,21 @@ function typewriterReveal(el) {
   function wrapNode(node) {
     if (node.nodeType === Node.TEXT_NODE) {
       if (!node.textContent) return;
-      const frag = document.createDocumentFragment();
+      const parent = node.parentNode;
+      // Outer wrapper = one flex/grid item; chars live inside it → no gap between chars
+      const outer = document.createElement('span');
+      outer.style.cssText = 'display:inline;padding:0;margin:0;font:inherit;';
       [...node.textContent].forEach(ch => {
-        if (ch === ' ' || ch === '\n' || ch === '\t' || ch === '\r') {
-          frag.appendChild(document.createTextNode(ch));
+        if (/\s/.test(ch)) {
+          outer.appendChild(document.createTextNode(ch));
         } else {
           const s = document.createElement('span');
           s.className = 'tw-ch';
           s.textContent = ch;
-          frag.appendChild(s);
+          outer.appendChild(s);
         }
       });
-      node.parentNode.replaceChild(frag, node);
+      parent.replaceChild(outer, node);
     } else if (node.nodeType === Node.ELEMENT_NODE &&
                node.nodeName !== 'SCRIPT' && node.nodeName !== 'STYLE') {
       [...node.childNodes].forEach(wrapNode);

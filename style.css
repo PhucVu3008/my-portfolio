@@ -367,7 +367,7 @@ a:hover { text-decoration:underline; }
 .reveal-delay-5 { transition-delay:0.5s; }
 
 /* Per-char typewriter spans — instantly revealed */
-.tw-ch { opacity:0; }
+.tw-ch { display:inline; padding:0; margin:0; font:inherit; opacity:0; }
 .tw-ch.on { opacity:1; }
 
 /* Keyframes */
