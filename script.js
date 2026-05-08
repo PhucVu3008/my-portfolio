@@ -26,9 +26,15 @@ const sections    = document.querySelectorAll('section[id]');
 const allNavLinks = document.querySelectorAll('.nav-links a');
 function updateActiveLink() {
   let current = '';
-  sections.forEach(s => {
-    if (s.getBoundingClientRect().top <= 80) current = s.id;
-  });
+  // If at bottom of page, force last section active
+  const atBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 8;
+  if (atBottom && sections.length) {
+    current = sections[sections.length - 1].id;
+  } else {
+    sections.forEach(s => {
+      if (s.getBoundingClientRect().top <= 80) current = s.id;
+    });
+  }
   allNavLinks.forEach(a => {
     a.classList.toggle('active', a.getAttribute('href') === `#${current}`);
   });
