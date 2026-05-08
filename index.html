@@ -38,45 +38,61 @@
 
   <!-- ── Hero ───────────────────────────────────────────────── -->
   <section class="hero" aria-label="Introduction">
-    <div class="container">
-      <div class="hero-tui" role="img" aria-label="Terminal interface introduction">
+    <div class="hero-tui" role="img" aria-label="Terminal interface introduction">
 
-        <div class="hero-tui-top">
-          <!-- ASCII initials -->
-          <pre class="hero-ascii-art" aria-hidden="true">
- ███████╗██╗   ██╗
- ██╔════╝██║   ██║
- █████╗  ██║   ██║
- ██╔══╝  ╚██╗ ██╔╝
- ███████╗ ╚████╔╝
- ╚══════╝  ╚═══╝
-          </pre>
+      <!-- Scanline overlay -->
+      <div class="hero-scanlines" aria-hidden="true"></div>
 
-          <div class="hero-tui-content">
-            <span class="hero-badge">[new]  open to internships &amp; opportunities</span>
-            <h1 class="hero-headline">Aspiring AI/ML &amp;<br />Computer Vision Engineer</h1>
-            <p class="hero-tagline">
-              CS undergraduate at Ton Duc Thang University. I build and learn at the intersection
-              of machine learning, computer vision, and software engineering.
-            </p>
-            <div class="hero-actions">
-              <a href="#projects" class="btn-primary">view projects →</a>
-              <a href="#contact" class="btn-secondary">get in touch</a>
-            </div>
-          </div>
+      <!-- Top window chrome -->
+      <div class="hero-tui-chrome" aria-hidden="true">
+        <span class="chrome-dot chrome-dot--red"></span>
+        <span class="chrome-dot chrome-dot--yellow"></span>
+        <span class="chrome-dot chrome-dot--green"></span>
+        <span class="chrome-title">evan-vu ~ portfolio</span>
+      </div>
+
+      <!-- Center content -->
+      <div class="hero-center">
+        <pre class="hero-ascii-art" aria-hidden="true">
+ ███████╗██╗   ██╗ █████╗ ███╗   ██╗    ██╗   ██╗██╗   ██╗
+ ██╔════╝██║   ██║██╔══██╗████╗  ██║    ██║   ██║██║   ██║
+ █████╗  ██║   ██║███████║██╔██╗ ██║    ██║   ██║██║   ██║
+ ██╔══╝  ╚██╗ ██╔╝██╔══██║██║╚██╗██║    ╚██╗ ██╔╝██║   ██║
+ ███████╗ ╚████╔╝ ██║  ██║██║ ╚████║     ╚████╔╝ ╚██████╔╝
+ ╚══════╝  ╚═══╝  ╚═╝  ╚═╝╚═╝  ╚═══╝     ╚═══╝   ╚═════╝
+        </pre>
+
+        <span class="hero-badge">[new]  open to internships &amp; opportunities</span>
+        <h1 class="hero-headline">Aspiring AI/ML &amp; Computer Vision Engineer</h1>
+        <p class="hero-tagline">
+          CS undergraduate at Ton Duc Thang University. Building at the intersection<br />
+          of machine learning, computer vision, and software engineering.
+        </p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn-primary">view projects →</a>
+          <a href="#about" class="btn-secondary">learn more ↓</a>
         </div>
+      </div>
 
-        <div class="hero-tui-prompt" aria-hidden="true">
+      <!-- Bottom terminal bar -->
+      <div class="hero-tui-bottom" aria-hidden="true">
+        <div class="hero-tui-prompt">
           <span class="tui-prompt-prefix">$</span>
-          <span class="tui-prompt-cmd">python train.py --model resnet50 --epochs 50</span>
+          <span class="tui-prompt-cmd" id="typed-cmd"></span><span class="tui-cursor">▋</span>
         </div>
-        <div class="tui-keyhints" aria-hidden="true">
+        <div class="tui-keyhints">
           <span>tab  switch section</span>
-          <span>ctrl+p  open search</span>
+          <span>ctrl+p  search</span>
           <span>Ho Chi Minh City, Vietnam</span>
         </div>
-
       </div>
+
+      <!-- Scroll indicator -->
+      <a href="#about" class="hero-scroll" aria-label="Scroll to about section">
+        <span>scroll</span>
+        <span class="hero-scroll-arrow">↓</span>
+      </a>
+
     </div>
   </section>
 
@@ -84,9 +100,9 @@
   <!-- ── About ──────────────────────────────────────────────── -->
   <section class="section" id="about" aria-labelledby="about-label">
     <div class="container">
-      <h2 class="section-label" id="about-label">about</h2>
+      <h2 class="section-label reveal" id="about-label">about</h2>
 
-      <p class="about-text">
+      <p class="about-text reveal reveal-delay-1">
         I am a Computer Science undergraduate at Ton Duc Thang University seeking an
         AI/ML &amp; Computer Vision internship. My technical foundation covers Python,
         NumPy/Pandas, scikit-learn, basic PyTorch/TensorFlow and OpenCV, with hands-on
@@ -99,7 +115,7 @@
         real-world projects, and to grow in an international software environment.
       </p>
 
-      <div class="about-meta">
+      <div class="about-meta reveal reveal-delay-2">
         <span class="about-meta-item">[*] Ho Chi Minh City, Vietnam</span>
         <span class="about-meta-item">
           [*] <a href="mailto:vmphuc3008@gmail.com">vmphuc3008@gmail.com</a>
@@ -122,9 +138,9 @@
   <!-- ── Skills ─────────────────────────────────────────────── -->
   <section class="section" id="skills" aria-labelledby="skills-label">
     <div class="container">
-      <h2 class="section-label" id="skills-label">skills</h2>
+      <h2 class="section-label reveal" id="skills-label">skills</h2>
 
-      <div class="skills-grid">
+      <div class="skills-grid reveal reveal-delay-1">
 
         <div>
           <p class="skills-group-label">ML / AI</p>
@@ -175,12 +191,12 @@
   <!-- ── Experience ─────────────────────────────────────────── -->
   <section class="section" id="experience" aria-labelledby="exp-label">
     <div class="container">
-      <h2 class="section-label" id="exp-label">experience</h2>
+      <h2 class="section-label reveal" id="exp-label">experience</h2>
 
       <div class="experience-list">
 
         <!-- Algorithmics -->
-        <article class="exp-item">
+        <article class="exp-item reveal reveal-delay-1">
           <div class="exp-meta">
             <p class="exp-period">Apr 2023 — Aug 2025</p>
             <p class="exp-company">Algorithmics Vietnam</p>
@@ -197,7 +213,7 @@
         </article>
 
         <!-- mangoSTEEMS -->
-        <article class="exp-item">
+        <article class="exp-item reveal reveal-delay-2">
           <div class="exp-meta">
             <p class="exp-period">Aug 2022 — Dec 2022</p>
             <p class="exp-company">mangoSTEEMS Vietnam</p>
@@ -213,7 +229,7 @@
         </article>
 
         <!-- KDI Education -->
-        <article class="exp-item">
+        <article class="exp-item reveal reveal-delay-3">
           <div class="exp-meta">
             <p class="exp-period">Mar 2022 — Feb 2023</p>
             <p class="exp-company">KDI Education</p>
@@ -236,9 +252,9 @@
   <!-- ── Education ──────────────────────────────────────────── -->
   <section class="section" id="education" aria-labelledby="edu-label">
     <div class="container">
-      <h2 class="section-label" id="edu-label">education</h2>
+      <h2 class="section-label reveal" id="edu-label">education</h2>
 
-      <div class="edu-item">
+      <div class="edu-item reveal reveal-delay-1">
         <div class="edu-meta">
           <p>Aug 2021 — Present</p>
           <p>Vietnam</p>
@@ -258,12 +274,12 @@
   <!-- ── Projects ───────────────────────────────────────────── -->
   <section class="section" id="projects" aria-labelledby="proj-label">
     <div class="container">
-      <h2 class="section-label" id="proj-label">projects</h2>
+      <h2 class="section-label reveal" id="proj-label">projects</h2>
 
       <div class="projects-list">
 
         <!-- Project 1 placeholder -->
-        <article class="project-item">
+        <article class="project-item reveal reveal-delay-1">
           <div class="project-meta">
             <p>2024</p>
             <p>Computer Vision</p>
@@ -288,7 +304,7 @@
         </article>
 
         <!-- Project 2 placeholder -->
-        <article class="project-item">
+        <article class="project-item reveal reveal-delay-2">
           <div class="project-meta">
             <p>2023</p>
             <p>Web Development</p>
@@ -314,7 +330,7 @@
 
       </div>
 
-      <p style="margin-top: var(--sp-xl); font-size: 14px; color: var(--color-mute);">
+      <p class="reveal reveal-delay-3" style="margin-top: var(--sp-xl); font-size: 14px; color: var(--color-mute);">
         [+] more projects on
         <a href="https://github.com/PhucVu3008" target="_blank" rel="noopener" style="color: var(--color-mute); text-decoration: underline;">github.com/PhucVu3008</a>
         and
@@ -327,15 +343,15 @@
   <!-- ── Contact ────────────────────────────────────────────── -->
   <section class="section" id="contact" aria-labelledby="contact-label">
     <div class="container">
-      <h2 class="section-label" id="contact-label">contact</h2>
+      <h2 class="section-label reveal" id="contact-label">contact</h2>
 
-      <h3 class="contact-headline">Let's work<br />together.</h3>
-      <p class="contact-sub">
+      <h3 class="contact-headline reveal reveal-delay-1">Let's work<br />together.</h3>
+      <p class="contact-sub reveal reveal-delay-2">
         I am actively looking for AI/ML internships and entry-level opportunities.
         Feel free to reach out — I will get back to you within 24 hours.
       </p>
 
-      <div class="contact-links">
+      <div class="contact-links reveal reveal-delay-3">
         <div class="contact-link-row">
           <span class="contact-link-label">email</span>
           <a href="mailto:vmphuc3008@gmail.com" class="contact-link-value">vmphuc3008@gmail.com</a>
