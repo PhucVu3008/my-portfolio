@@ -237,13 +237,24 @@ a:hover { text-decoration:underline; }
   opacity:0; animation:fadeInDown var(--dur-xl) var(--ease-out-expo) 0.2s forwards;
 }
 
+.hero-name {
+  font-size:clamp(20px, 2.5vw, 28px); font-weight:700;
+  color:var(--color-on-dark); margin-bottom:var(--sp-sm);
+  letter-spacing:0;
+  opacity:0; animation:fadeInUp var(--dur-xl) var(--ease-out-expo) 0.55s forwards;
+}
+.hero-name-alias {
+  font-size:clamp(14px, 1.6vw, 18px); font-weight:400;
+  color:var(--color-on-dark-mute);
+}
+
 .hero-badge {
   display:inline-block;
   background-color:var(--color-surface-dark-elev);
   color:var(--color-on-dark); font-size:13px;
   padding:3px 10px; border-radius:var(--r-sm);
   margin-bottom:var(--sp-lg); border:1px solid #3a3636;
-  opacity:0; animation:fadeInUp var(--dur-xl) var(--ease-out-expo) 0.5s forwards;
+  opacity:0; animation:fadeInUp var(--dur-xl) var(--ease-out-expo) 0.4s forwards;
 }
 
 .hero-headline {
