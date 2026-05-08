@@ -358,35 +358,17 @@ a:hover { text-decoration:underline; }
   transition: opacity var(--dur-slow) var(--ease-out-expo),
               transform var(--dur-slow) var(--ease-out-expo);
 }
-.reveal.visible {
-  opacity:1;
-  transform:translateY(0);
-}
-/* typewriter-handled reveals skip CSS transition */
-.reveal.tw-active {
-  opacity:1;
-  transform:translateY(0);
-  transition:none;
-}
+.reveal.visible  { opacity:1; transform:translateY(0); }
+.reveal.tw-active { opacity:1; transform:translateY(0); transition:none; }
 .reveal-delay-1 { transition-delay:0.1s; }
 .reveal-delay-2 { transition-delay:0.2s; }
 .reveal-delay-3 { transition-delay:0.3s; }
 .reveal-delay-4 { transition-delay:0.4s; }
 .reveal-delay-5 { transition-delay:0.5s; }
 
-/* Typewriter cursor */
-.tw-cursor {
-  display:inline-block;
-  width:1.5px; height:1em;
-  background:currentColor;
-  vertical-align:text-bottom;
-  margin-left:1px;
-  animation:tw-blink 0.65s step-end infinite;
-}
-@keyframes tw-blink {
-  0%,100% { opacity:1; }
-  50%      { opacity:0; }
-}
+/* Per-char typewriter spans — instantly revealed */
+.tw-ch { opacity:0; }
+.tw-ch.on { opacity:1; }
 
 /* Keyframes */
 @keyframes fadeIn {
@@ -439,14 +421,8 @@ a:hover { text-decoration:underline; }
   line-height:1.5; padding:var(--sp-sm) 0;
   border-bottom:1px solid var(--color-hairline);
   display:flex; align-items:center; gap:var(--sp-sm);
-  opacity:0; transform:translateX(-12px);
   transition: color var(--dur-fast) ease,
-              padding-left var(--dur-normal) var(--ease-out-quart),
-              opacity var(--dur-slow) var(--ease-out-expo),
-              transform var(--dur-slow) var(--ease-out-expo);
-}
-.skills-list li.visible {
-  opacity:1; transform:translateX(0);
+              padding-left var(--dur-normal) var(--ease-out-quart);
 }
 .skills-list li::before {
   content:'[+]'; color:var(--color-mute); flex-shrink:0;

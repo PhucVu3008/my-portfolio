@@ -38,65 +38,67 @@ updateActiveLink();
 
 
 // ── Typewriter reveal ─────────────────────────────────────────
+// Strategy: pre-render full HTML (so layout is locked), then wrap
+// every non-space char in .tw-ch span and reveal via rAF — zero jitter.
 function typewriterReveal(el) {
-  const tmp = document.createElement('div');
-  tmp.innerHTML = el.innerHTML;
-
-  const tokens = [];
-  function walk(node) {
-    if (node.nodeType === Node.TEXT_NODE) {
-      [...node.textContent].forEach(c => tokens.push({ type: 'char', val: c }));
-    } else if (node.nodeName === 'BR') {
-      tokens.push({ type: 'br' });
-    } else if (node.nodeType === Node.ELEMENT_NODE) {
-      tokens.push({ type: 'open', tag: node.nodeName, cls: node.className, href: node.getAttribute('href'), target: node.getAttribute('target') });
-      node.childNodes.forEach(walk);
-      tokens.push({ type: 'close' });
-    }
-  }
-  tmp.childNodes.forEach(walk);
-
-  el.innerHTML = '';
+  // 1. Make element visible but hidden so we can measure it
+  el.style.cssText += ';opacity:1!important;transform:none!important;transition:none!important;visibility:hidden';
   el.classList.add('tw-active');
 
-  const cursor = document.createElement('span');
-  cursor.className = 'tw-cursor';
-  el.appendChild(cursor);
-  let currentParent = el;
-  const stack = [];
+  // 2. Lock height so layout never shifts during reveal
+  const h = el.offsetHeight;
+  if (h > 0) el.style.minHeight = h + 'px';
 
-  // Fast: cap at 1.0s total regardless of length
-  const charCount = Math.max(tokens.filter(t => t.type === 'char').length, 1);
-  const speed = Math.min(40, Math.max(8, Math.floor(1000 / charCount)));
-
-  let i = 0;
-  function tick() {
-    if (i >= tokens.length) {
-      setTimeout(() => cursor.remove(), 500);
-      return;
+  // 3. Walk DOM and wrap every non-whitespace char in a .tw-ch span
+  function wrapNode(node) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      if (!node.textContent) return;
+      const frag = document.createDocumentFragment();
+      [...node.textContent].forEach(ch => {
+        if (ch === ' ' || ch === '\n' || ch === '\t' || ch === '\r') {
+          frag.appendChild(document.createTextNode(ch));
+        } else {
+          const s = document.createElement('span');
+          s.className = 'tw-ch';
+          s.textContent = ch;
+          frag.appendChild(s);
+        }
+      });
+      node.parentNode.replaceChild(frag, node);
+    } else if (node.nodeType === Node.ELEMENT_NODE &&
+               node.nodeName !== 'SCRIPT' && node.nodeName !== 'STYLE') {
+      [...node.childNodes].forEach(wrapNode);
     }
-    const t = tokens[i++];
-    if (t.type === 'char') {
-      currentParent.insertBefore(document.createTextNode(t.val), cursor);
-    } else if (t.type === 'br') {
-      currentParent.insertBefore(document.createElement('br'), cursor);
-    } else if (t.type === 'open') {
-      const wrap = document.createElement(t.tag);
-      if (t.cls)    wrap.className = t.cls;
-      if (t.href)   wrap.setAttribute('href', t.href);
-      if (t.target) wrap.setAttribute('target', t.target);
-      currentParent.insertBefore(wrap, cursor);
-      wrap.appendChild(cursor);
-      stack.push(currentParent);
-      currentParent = wrap;
-    } else if (t.type === 'close') {
-      currentParent = stack.pop() || el;
-      currentParent.appendChild(cursor);
-    }
-    if (t.type === 'char') setTimeout(tick, speed);
-    else tick();
   }
-  tick();
+  wrapNode(el);
+
+  // 4. Now show element — chars invisible via .tw-ch { opacity:0 }
+  el.style.visibility = 'visible';
+
+  const spans = Array.from(el.querySelectorAll('.tw-ch'));
+  if (!spans.length) return;
+
+  // 5. Reveal all chars over ~450ms using rAF
+  const DURATION = 450;
+  const start = performance.now();
+  let revealed = 0;
+
+  function frame(now) {
+    const progress = Math.min(1, (now - start) / DURATION);
+    // Ease-out: reveal faster at start, slow at end
+    const eased = 1 - Math.pow(1 - progress, 2);
+    const target = Math.floor(eased * spans.length);
+    while (revealed < target) {
+      spans[revealed].classList.add('on');
+      revealed++;
+    }
+    if (revealed < spans.length) {
+      requestAnimationFrame(frame);
+    } else {
+      el.style.minHeight = '';
+    }
+  }
+  requestAnimationFrame(frame);
 }
 
 // ── Reveal on scroll — all elements start simultaneously ──────
