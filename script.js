@@ -258,11 +258,12 @@ initAsciiArt();
 
 // ── Typed terminal command ─────────────────────────────────────
 const commands = [
-  'python train.py --model resnet50 --epochs 50',
-  'git commit -m "feat: add object detection module"',
-  'python preprocess.py --dataset COCO --split train',
-  'pip install torch torchvision opencv-python',
-  'python evaluate.py --checkpoint best_model.pth',
+  'npm run dev  # fastify backend on :3001',
+  'git commit -m "feat: add pgvector semantic search"',
+  'docker compose up -d --build',
+  'python train.py --model arcface --epochs 30',
+  'gh workflow run deploy.yml --ref main',
+  'psql -c "CREATE INDEX ON embeddings USING ivfflat (vec vector_cosine_ops)"',
 ];
 let cmdIndex   = 0;
 let charIndex  = 0;
