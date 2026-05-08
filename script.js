@@ -38,23 +38,10 @@ updateActiveLink();
 
 
 // ── Typewriter reveal ─────────────────────────────────────────
-const TW_SELECTORS = [
-  '.section-label',
-  '.about-text',
-  '.contact-headline',
-  '.contact-sub',
-];
-function isTypewriterEl(el) {
-  return TW_SELECTORS.some(sel => el.matches(sel));
-}
-
 function typewriterReveal(el) {
-  // Tokenise innerHTML: chars + <br> + <span> wrappers preserved
-  const originalHTML = el.innerHTML;
   const tmp = document.createElement('div');
-  tmp.innerHTML = originalHTML;
+  tmp.innerHTML = el.innerHTML;
 
-  // Flatten to tokens [{type:'char'|'br'|'open'|'close', ...}]
   const tokens = [];
   function walk(node) {
     if (node.nodeType === Node.TEXT_NODE) {
@@ -62,9 +49,9 @@ function typewriterReveal(el) {
     } else if (node.nodeName === 'BR') {
       tokens.push({ type: 'br' });
     } else if (node.nodeType === Node.ELEMENT_NODE) {
-      tokens.push({ type: 'open', tag: node.nodeName, attr: node.getAttribute('class') });
+      tokens.push({ type: 'open', tag: node.nodeName, cls: node.className, href: node.getAttribute('href'), target: node.getAttribute('target') });
       node.childNodes.forEach(walk);
-      tokens.push({ type: 'close', tag: node.nodeName });
+      tokens.push({ type: 'close' });
     }
   }
   tmp.childNodes.forEach(walk);
@@ -72,21 +59,20 @@ function typewriterReveal(el) {
   el.innerHTML = '';
   el.classList.add('tw-active');
 
-  // Build output: maintain a stack of current container elements
   const cursor = document.createElement('span');
   cursor.className = 'tw-cursor';
   el.appendChild(cursor);
   let currentParent = el;
   const stack = [];
 
-  // Speed: aim ≤ 1.8s for any length
-  const charCount = tokens.filter(t => t.type === 'char').length;
-  const speed = Math.min(52, Math.max(16, Math.floor(1600 / Math.max(charCount, 1))));
+  // Fast: cap at 1.0s total regardless of length
+  const charCount = Math.max(tokens.filter(t => t.type === 'char').length, 1);
+  const speed = Math.min(40, Math.max(8, Math.floor(1000 / charCount)));
 
   let i = 0;
   function tick() {
     if (i >= tokens.length) {
-      setTimeout(() => cursor.remove(), 700);
+      setTimeout(() => cursor.remove(), 500);
       return;
     }
     const t = tokens[i++];
@@ -96,59 +82,34 @@ function typewriterReveal(el) {
       currentParent.insertBefore(document.createElement('br'), cursor);
     } else if (t.type === 'open') {
       const wrap = document.createElement(t.tag);
-      if (t.attr) wrap.className = t.attr;
+      if (t.cls)    wrap.className = t.cls;
+      if (t.href)   wrap.setAttribute('href', t.href);
+      if (t.target) wrap.setAttribute('target', t.target);
       currentParent.insertBefore(wrap, cursor);
-      // Move cursor inside new container
       wrap.appendChild(cursor);
       stack.push(currentParent);
       currentParent = wrap;
     } else if (t.type === 'close') {
       currentParent = stack.pop() || el;
-      currentParent.insertBefore(cursor, null); // move cursor back up
+      currentParent.appendChild(cursor);
     }
-    // Only delay on char tokens; structural tokens are instant
-    if (t.type === 'char') {
-      setTimeout(tick, speed);
-    } else {
-      tick();
-    }
+    if (t.type === 'char') setTimeout(tick, speed);
+    else tick();
   }
   tick();
 }
 
-// ── Reveal on scroll ──────────────────────────────────────────
+// ── Reveal on scroll — all elements start simultaneously ──────
 const revealObserver = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
       const el = e.target;
       revealObserver.unobserve(el);
-      // Respect transition-delay for non-typewriter elements
-      const delay = parseFloat(getComputedStyle(el).transitionDelay) * 1000 || 0;
-      if (isTypewriterEl(el)) {
-        setTimeout(() => typewriterReveal(el), delay);
-      } else {
-        el.classList.add('visible');
-      }
+      typewriterReveal(el);
     }
   });
-}, { threshold: 0.12 });
+}, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-
-// ── Skills stagger ────────────────────────────────────────────
-const skillsSection = document.getElementById('skills');
-if (skillsSection) {
-  const skillObs = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) {
-      document.querySelectorAll('.skills-list li').forEach((li, i) => {
-        li.style.transitionDelay = `${i * 40}ms`;
-        li.classList.add('visible');
-      });
-      skillObs.disconnect();
-    }
-  }, { threshold: 0.15 });
-  skillObs.observe(skillsSection);
-}
 
 
 // ── ASCII Art: per-character interactive animation ────────────
