@@ -11,6 +11,7 @@
     "pullRequestsLastYear": 0,
     "currentStreak": 0
   },
+  "calendar": { "total": 0, "max": 0, "days": [] },
   "languages": [],
   "recentRepos": [],
   "feed": []

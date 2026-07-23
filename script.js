@@ -349,6 +349,70 @@ setTimeout(type, 1800);
 
   const fmt = n => (n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1) + 'k' : String(n));
 
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  // Build a GitHub-style contribution heatmap: 7 rows (Sun→Sat) × N week
+  // columns. Each day maps to an intensity level 0–4 relative to the busiest day.
+  function heatmapHtml(cal) {
+    if (!cal || !cal.days || !cal.days.length) return '';
+    const byDate = new Map(cal.days.map(x => [x.d, x.c]));
+    const max = cal.max || 1;
+    const level = c => c === 0 ? 0 : c >= max * 0.75 ? 4 : c >= max * 0.5 ? 3 : c >= max * 0.25 ? 2 : 1;
+
+    // Start from the Sunday on/before the first day so columns align by week.
+    const first = new Date(cal.days[0].d + 'T00:00:00Z');
+    const last  = new Date(cal.days[cal.days.length - 1].d + 'T00:00:00Z');
+    const start = new Date(first);
+    start.setUTCDate(start.getUTCDate() - start.getUTCDay());
+
+    const cols = [];       // each col = array of 7 cells (may be null)
+    const monthLabels = []; // { col, name }
+    let col = [];
+    let lastMonth = -1;
+    for (let cur = new Date(start); cur <= last; cur.setUTCDate(cur.getUTCDate() + 1)) {
+      const iso = cur.toISOString().slice(0, 10);
+      const inRange = cur >= first;
+      const c = inRange ? (byDate.get(iso) || 0) : null;
+      col.push(c === null ? null : { iso, c, lvl: level(c) });
+      if (cur.getUTCDay() === 6) { // Saturday → close the column
+        const m = cur.getUTCMonth();
+        if (m !== lastMonth) { monthLabels.push({ col: cols.length, name: MONTHS[m] }); lastMonth = m; }
+        cols.push(col); col = [];
+      }
+    }
+    if (col.length) cols.push(col);
+
+    const cells = cols.map(c => `
+      <div class="hm-col">
+        ${Array.from({ length: 7 }, (_, r) => {
+          const cell = c[r];
+          if (!cell) return '<span class="hm-cell hm-empty"></span>';
+          return `<span class="hm-cell" data-lvl="${cell.lvl}" title="${cell.c} on ${cell.iso}"></span>`;
+        }).join('')}
+      </div>`).join('');
+
+    const labels = monthLabels.map(m =>
+      `<span class="hm-month" style="grid-column:${m.col + 1}">${m.name}</span>`).join('');
+
+    return `
+      <div class="activity-block">
+        <h3 class="activity-block-title">// ${cal.total} contributions in the last year</h3>
+        <div class="activity-heatmap-wrap">
+          <div class="hm-months" style="grid-template-columns:repeat(${cols.length},11px)">${labels}</div>
+          <div class="activity-heatmap">${cells}</div>
+          <div class="hm-legend">
+            <span>less</span>
+            <span class="hm-cell" data-lvl="0"></span>
+            <span class="hm-cell" data-lvl="1"></span>
+            <span class="hm-cell" data-lvl="2"></span>
+            <span class="hm-cell" data-lvl="3"></span>
+            <span class="hm-cell" data-lvl="4"></span>
+            <span>more</span>
+          </div>
+        </div>
+      </div>`;
+  }
+
   function render(d) {
     const s = d.stats || {};
     const stats = [
@@ -423,7 +487,7 @@ setTimeout(type, 1800);
       ? `synced ${timeAgo(d.generatedAt)} · <a href="${esc(d.profileUrl)}" target="_blank" rel="noopener">@${esc(d.username)}</a>`
       : `<a href="${esc(d.profileUrl)}" target="_blank" rel="noopener">@${esc(d.username)}</a>`;
 
-    root.innerHTML = statsHtml + langHtml + repoHtml + feedHtml +
+    root.innerHTML = statsHtml + heatmapHtml(d.calendar) + langHtml + repoHtml + feedHtml +
       `<p class="activity-stamp">${stamp}</p>`;
     root.dataset.state = 'ready';
   }

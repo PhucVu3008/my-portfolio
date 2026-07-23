@@ -99,6 +99,18 @@ function currentStreak(weeks) {
   return streak;
 }
 
+// ── Flatten the contribution calendar into a compact day list ─
+// Output: { total, max, days: [{ d: "YYYY-MM-DD", c: count }] } sorted
+// oldest→newest. The client renders these as a GitHub-style heatmap.
+function buildCalendar(cal) {
+  const days = cal.weeks
+    .flatMap(w => w.contributionDays)
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .map(x => ({ d: x.date, c: x.contributionCount }));
+  const max = days.reduce((m, x) => Math.max(m, x.c), 0);
+  return { total: cal.totalContributions, max, days };
+}
+
 // ── Aggregate top languages by bytes across owned, non-fork repos ─
 function topLanguages(repos) {
   const totals = new Map(); // name -> { size, color }
@@ -186,6 +198,7 @@ async function main() {
       pullRequestsLastYear: cc.totalPullRequestContributions,
       currentStreak: currentStreak(cc.contributionCalendar.weeks),
     },
+    calendar: buildCalendar(cc.contributionCalendar),
     languages: topLanguages(owned),
     recentRepos,
     feed,
