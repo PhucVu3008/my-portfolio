@@ -323,3 +323,124 @@ function scheduleType() {
   if (!typePaused) setTimeout(type, isDeleting ? 28 : 62);
 }
 setTimeout(type, 1800);
+
+
+// ── GitHub Activity ───────────────────────────────────────────
+// Reads data/github-activity.json (regenerated weekly in CI) and
+// renders the activity section. Fails silently to keep the page clean.
+(function initGitHubActivity() {
+  const root = document.getElementById('activity-root');
+  if (!root) return;
+
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  function timeAgo(iso) {
+    if (!iso) return '';
+    const then = new Date(iso).getTime();
+    if (Number.isNaN(then)) return '';
+    const s = Math.max(0, Math.floor((Date.now() - then) / 1000));
+    const units = [[31536000, 'y'], [2592000, 'mo'], [604800, 'w'], [86400, 'd'], [3600, 'h'], [60, 'm']];
+    for (const [secs, label] of units) {
+      if (s >= secs) return `${Math.floor(s / secs)}${label} ago`;
+    }
+    return 'just now';
+  }
+
+  const fmt = n => (n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1) + 'k' : String(n));
+
+  function render(d) {
+    const s = d.stats || {};
+    const stats = [
+      { label: 'contributions', sub: 'last 12 mo', value: fmt(s.contributionsLastYear || 0) },
+      { label: 'day streak',    sub: 'current',    value: fmt(s.currentStreak || 0) },
+      { label: 'public repos',  sub: 'owned',       value: fmt(s.publicRepos || 0) },
+      { label: 'stars earned',  sub: 'total',       value: fmt(s.totalStars || 0) },
+    ];
+
+    const statsHtml = `
+      <div class="activity-stats">
+        ${stats.map(x => `
+          <div class="activity-stat">
+            <span class="activity-stat-value">${esc(x.value)}</span>
+            <span class="activity-stat-label">${esc(x.label)}</span>
+            <span class="activity-stat-sub">${esc(x.sub)}</span>
+          </div>`).join('')}
+      </div>`;
+
+    const langs = d.languages || [];
+    const langHtml = langs.length ? `
+      <div class="activity-block">
+        <h3 class="activity-block-title">// top languages</h3>
+        <div class="activity-langbar" role="img" aria-label="Language distribution">
+          ${langs.map(l => `<span style="width:${l.pct}%;background:${esc(l.color)}" title="${esc(l.name)} ${l.pct}%"></span>`).join('')}
+        </div>
+        <div class="activity-langs">
+          ${langs.map(l => `
+            <span class="activity-lang">
+              <span class="activity-lang-dot" style="background:${esc(l.color)}"></span>
+              ${esc(l.name)} <span class="activity-lang-pct">${l.pct}%</span>
+            </span>`).join('')}
+        </div>
+      </div>` : '';
+
+    const repos = d.recentRepos || [];
+    const repoHtml = repos.length ? `
+      <div class="activity-block">
+        <h3 class="activity-block-title">// recently pushed</h3>
+        <div class="activity-repos">
+          ${repos.map(r => `
+            <a class="activity-repo" href="${esc(r.url)}" target="_blank" rel="noopener">
+              <span class="activity-repo-head">
+                <span class="activity-repo-name">${esc(r.name)}</span>
+                ${r.stars ? `<span class="activity-repo-stars">★ ${fmt(r.stars)}</span>` : ''}
+              </span>
+              ${r.description ? `<span class="activity-repo-desc">${esc(r.description)}</span>` : ''}
+              <span class="activity-repo-foot">
+                ${r.language ? `<span class="activity-lang-dot" style="background:${esc(r.languageColor || '#888')}"></span>${esc(r.language)}` : ''}
+                <span class="activity-repo-when">${esc(timeAgo(r.pushedAt))}</span>
+              </span>
+            </a>`).join('')}
+        </div>
+      </div>` : '';
+
+    const feed = d.feed || [];
+    const feedHtml = feed.length ? `
+      <div class="activity-block">
+        <h3 class="activity-block-title">// recent events</h3>
+        <ul class="activity-feed">
+          ${feed.map(f => `
+            <li class="activity-feed-item">
+              <span class="activity-feed-text">${esc(f.text)}
+                <a href="https://github.com/${esc(f.repo)}" target="_blank" rel="noopener">${esc(f.repo)}</a>
+              </span>
+              <span class="activity-feed-when">${esc(timeAgo(f.when))}</span>
+            </li>`).join('')}
+        </ul>
+      </div>` : '';
+
+    const stamp = d.generatedAt
+      ? `synced ${timeAgo(d.generatedAt)} · <a href="${esc(d.profileUrl)}" target="_blank" rel="noopener">@${esc(d.username)}</a>`
+      : `<a href="${esc(d.profileUrl)}" target="_blank" rel="noopener">@${esc(d.username)}</a>`;
+
+    root.innerHTML = statsHtml + langHtml + repoHtml + feedHtml +
+      `<p class="activity-stamp">${stamp}</p>`;
+    root.dataset.state = 'ready';
+  }
+
+  fetch('data/github-activity.json', { cache: 'no-cache' })
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(d => {
+      // Empty placeholder (never synced) → hide the section entirely.
+      if (!d.generatedAt && !(d.stats && d.stats.publicRepos)) {
+        const section = document.getElementById('activity');
+        if (section) section.style.display = 'none';
+        return;
+      }
+      render(d);
+    })
+    .catch(() => {
+      const section = document.getElementById('activity');
+      if (section) section.style.display = 'none';
+    });
+})();

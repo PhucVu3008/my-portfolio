@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - main
+  # Rebuild weekly so the GitHub-activity section stays fresh.
+  # Sunday 03:17 UTC — deliberately off the top of the hour.
+  schedule:
+    - cron: '17 3 * * 0'
+  # Allow manual "Run workflow" from the Actions tab.
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -23,6 +29,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate GitHub activity data
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_USERNAME: ${{ github.repository_owner }}
+        run: node scripts/fetch-github-activity.mjs
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
