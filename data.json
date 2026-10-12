@@ -1,7 +1,7 @@
 {
   "site": {
     "title": "Evan Vu — Portfolio",
-    "description": "Vu Minh Phuc (Evan Vu) — Node.js Developer & CS undergraduate at Ton Duc Thang University. Building production backends with Fastify, TypeScript, PostgreSQL, and AI integrations.",
+    "description": "Vu Minh Phuc (Evan Vu) — Node.js Developer, B.Sc. Computer Science at Ton Duc Thang University (Graduated). Building production backends with Fastify, TypeScript, PostgreSQL, and AI integrations.",
     "url": "https://phucvu3008.github.io/my-portfolio/",
     "ogImage": "og-image.png",
     "lang": "en"
@@ -10,7 +10,7 @@
     "name": "Vu Minh Phuc",
     "alias": "Evan",
     "headline": "Backend Engineer & AI/ML Enthusiast",
-    "tagline": "CS undergraduate at Ton Duc Thang University. Building production backends with Node.js + TypeScript, and exploring AI/ML & Computer Vision.",
+    "tagline": "B.Sc. Computer Science, Ton Duc Thang University. Building production backends with Node.js + TypeScript, and exploring AI/ML & Computer Vision.",
     "badge": "Node.js Developer @ KOOLA · open to new opportunities",
     "location": "Ho Chi Minh City, Vietnam",
     "email": "vmphuc3008@gmail.com",
@@ -19,12 +19,51 @@
     "kaggle": "https://www.kaggle.com/phucvu3008",
     "aptisUrl": "https://bit.ly/aptis-certificate"
   },
-  "about": "I am a Computer Science undergraduate at Ton Duc Thang University, currently working as a <strong>Node.js Developer at KOOLA International Technology Solutions</strong> — building and maintaining production backends with Fastify 4, TypeScript, and PostgreSQL, shipping a bilingual AI-powered website with Google Gemini + pgvector, and setting up Docker/CI-CD infrastructure.<br><br>On the AI side, I have hands-on experience in computer vision: face recognition with ArcFace, MediaPipe Face Mesh landmark detection, and a multi-stage anti-spoofing pipeline — alongside university-level study of Python, NumPy/Pandas, scikit-learn, and OpenCV.<br><br>I also bring 3+ years of teaching experience — independently leading coding classes for students aged 7–18 — which sharpened my communication, adaptability, and problem-solving skills. I am eager to grow in international, technically demanding environments.",
+  "about": "I am a B.Sc. Computer Science graduate from Ton Duc Thang University, currently working as a <strong>Node.js Developer at KOOLA International Technology Solutions</strong> — building and maintaining production backends with Fastify 4, TypeScript, and PostgreSQL, shipping a bilingual AI-powered website with Google Gemini + pgvector, and setting up Docker/CI-CD infrastructure.<br><br>On the AI side, I have hands-on experience in computer vision: face recognition with ArcFace, MediaPipe Face Mesh landmark detection, and a multi-stage anti-spoofing pipeline — alongside university-level study of Python, NumPy/Pandas, scikit-learn, and OpenCV.<br><br>I also bring 3+ years of teaching experience — independently leading coding classes for students aged 7–18 — which sharpened my communication, adaptability, and problem-solving skills. I am eager to grow in international, technically demanding environments.",
   "skills": [
-    { "group": "ML / AI", "items": ["Python", "NumPy / Pandas", "scikit-learn", "PyTorch (basic)", "OpenCV", "ArcFace / MediaPipe"] },
-    { "group": "Backend & Web", "items": ["Node.js", "TypeScript", "Fastify 4", "Next.js 14", "PostgreSQL", "MongoDB", "REST API / JWT"] },
-    { "group": "DevOps & Tools", "items": ["Docker / Compose", "Nginx", "GitHub Actions CI/CD", "Cloudflare Tunnel", "Linux CLI", "Git / GitHub"] },
-    { "group": "Soft Skills", "items": ["Teaching & Mentoring", "Technical Communication", "Teamwork", "Problem Solving"] }
+    {
+      "group": "ML / AI",
+      "items": [
+        "Python",
+        "NumPy / Pandas",
+        "scikit-learn",
+        "PyTorch (basic)",
+        "OpenCV",
+        "ArcFace / MediaPipe"
+      ]
+    },
+    {
+      "group": "Backend & Web",
+      "items": [
+        "Node.js",
+        "TypeScript",
+        "Fastify 4",
+        "Next.js 14",
+        "PostgreSQL",
+        "MongoDB",
+        "REST API / JWT"
+      ]
+    },
+    {
+      "group": "DevOps & Tools",
+      "items": [
+        "Docker / Compose",
+        "Nginx",
+        "GitHub Actions CI/CD",
+        "Cloudflare Tunnel",
+        "Linux CLI",
+        "Git / GitHub"
+      ]
+    },
+    {
+      "group": "Soft Skills",
+      "items": [
+        "Teaching & Mentoring",
+        "Technical Communication",
+        "Teamwork",
+        "Problem Solving"
+      ]
+    }
   ],
   "experience": [
     {
@@ -74,12 +113,11 @@
   ],
   "education": [
     {
-      "period": "Aug 2021 — Present",
+      "period": "Aug 2021 — Jun 2025",
       "location": "Vietnam",
-      "degree": "B.Sc. Computer Science",
+      "degree": "B.Sc. Computer Science — Graduated",
       "school": "Ton Duc Thang University",
-      "note": "[*] Coursework in algorithms, data structures, software engineering, databases, and machine learning fundamentals.",
-      "expectedGraduation": "2026"
+      "note": "[*] Coursework in algorithms, data structures, software engineering, databases, and machine learning fundamentals."
     }
   ],
   "projects": [
@@ -88,10 +126,24 @@
       "category": "Full-Stack",
       "name": "koola.vn — Company Website",
       "desc": "Production monorepo for KOOLA International Technology Solutions. Bilingual (Vi/EN) site with an AI chat assistant powered by Google Gemini and pgvector semantic search, a full admin panel, JWT auth, and automated CI/CD deployment to a self-hosted VPS via GitHub Actions + rsync.",
-      "tags": ["Next.js 14", "Fastify", "TypeScript", "PostgreSQL", "pgvector", "Google Gemini", "Docker"],
+      "tags": [
+        "Next.js 14",
+        "Fastify",
+        "TypeScript",
+        "PostgreSQL",
+        "pgvector",
+        "Google Gemini",
+        "Docker"
+      ],
       "links": [
-        { "label": "github", "href": "https://github.com/PhucVu3008/koola-website" },
-        { "label": "live site", "href": "https://koola.vn" }
+        {
+          "label": "github",
+          "href": "https://github.com/PhucVu3008/koola-website"
+        },
+        {
+          "label": "live site",
+          "href": "https://koola.vn"
+        }
       ]
     },
     {
@@ -99,16 +151,39 @@
       "category": "Full-Stack",
       "name": "Koola Demo — Full-Stack Boilerplate",
       "desc": "Full-stack starter built to validate the KOOLA architecture before production. Node.js/Express REST API with JWT authentication, MongoDB, and a Next.js 15 frontend. Containerised with Docker Compose for one-command local development.",
-      "tags": ["Node.js", "Express", "MongoDB", "Next.js 15", "TypeScript", "Docker", "JWT"],
-      "links": [{ "label": "github", "href": "https://github.com/PhucVu3008/koola-demo" }]
+      "tags": [
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "Next.js 15",
+        "TypeScript",
+        "Docker",
+        "JWT"
+      ],
+      "links": [
+        {
+          "label": "github",
+          "href": "https://github.com/PhucVu3008/koola-demo"
+        }
+      ]
     },
     {
       "period": "2025",
       "category": "Computer Vision",
       "name": "Traffic Sign Detection — Non-AI",
       "desc": "University project demonstrating traffic sign detection using classical computer vision techniques — no deep learning. Combines colour-based segmentation and geometric shape analysis to locate and classify road signs, highlighting the contrast between traditional CV and modern neural approaches.",
-      "tags": ["Computer Vision", "OpenCV", "Image Processing", "Python"],
-      "links": [{ "label": "github", "href": "https://github.com/PhucVu3008/Trafic_Sign_Detection_NonAI" }]
+      "tags": [
+        "Computer Vision",
+        "OpenCV",
+        "Image Processing",
+        "Python"
+      ],
+      "links": [
+        {
+          "label": "github",
+          "href": "https://github.com/PhucVu3008/Trafic_Sign_Detection_NonAI"
+        }
+      ]
     },
     {
       "period": "2025 – now",
@@ -116,8 +191,20 @@
       "name": "ERP Face Attendance Kiosk",
       "contributor": true,
       "desc": "Built the entire face attendance kiosk module inside an ERP system. Implemented ArcFace-based face recognition with a multi-stage anti-spoofing pipeline: blink detection via Eye Aspect Ratio (EAR), head-nod liveness challenge, and passive liveness with MiniFASNetV2. Used MediaPipe Face Mesh for landmark detection and YuNet for robust face detection. Admin enrollment flow features Face ID–style auto-capture with pose validation.",
-      "tags": ["ArcFace", "MediaPipe", "Anti-Spoofing", "Python", "TypeScript", "OpenCV"],
-      "links": [{ "label": "github", "href": "https://github.com/phantanquoc/ERP_V6" }]
+      "tags": [
+        "ArcFace",
+        "MediaPipe",
+        "Anti-Spoofing",
+        "Python",
+        "TypeScript",
+        "OpenCV"
+      ],
+      "links": [
+        {
+          "label": "github",
+          "href": "https://github.com/phantanquoc/ERP_V6"
+        }
+      ]
     },
     {
       "period": "2025",
@@ -125,8 +212,18 @@
       "name": "GimJi Restaurant Management",
       "contributor": true,
       "desc": "Team project building a restaurant management desktop app in C# WinForms with a clean 3-layer architecture. Responsible for the Order, Payment, and Login modules — including UI design, business logic, and data access layers.",
-      "tags": ["C#", "WinForms", "3-Layer Architecture", "SQL Server"],
-      "links": [{ "label": "github", "href": "https://github.com/thanhlongqax/GimJiRestaurant" }]
+      "tags": [
+        "C#",
+        "WinForms",
+        "3-Layer Architecture",
+        "SQL Server"
+      ],
+      "links": [
+        {
+          "label": "github",
+          "href": "https://github.com/thanhlongqax/GimJiRestaurant"
+        }
+      ]
     }
   ],
   "certifications": [
