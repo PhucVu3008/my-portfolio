@@ -29,9 +29,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
       - name: Install deps
-        run: npm ci || npm install
+        run: npm install
       - name: Generate GitHub activity data
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
