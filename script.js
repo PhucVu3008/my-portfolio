@@ -499,16 +499,18 @@ setTimeout(type, 1800);
   fetch('data/github-activity.json', { cache: 'no-cache' })
     .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(d => {
-      // Empty placeholder (never synced) → hide the section entirely.
       if (!d.generatedAt && !(d.stats && d.stats.publicRepos)) {
-        const section = document.getElementById('activity');
-        if (section) section.style.display = 'none';
+        root.innerHTML = '<p class="activity-loading" style="color:var(--color-mute)">no activity data yet — check back after the next deploy.</p>';
+        root.dataset.state = 'empty';
+        root.setAttribute('aria-busy', 'false');
         return;
       }
       render(d);
+      root.setAttribute('aria-busy', 'false');
     })
     .catch(() => {
-      const section = document.getElementById('activity');
-      if (section) section.style.display = 'none';
+      root.innerHTML = '<p class="activity-loading" style="color:var(--color-mute)">could not load activity — <a href="https://github.com/PhucVu3008" target="_blank" rel="noopener">view on GitHub →</a></p>';
+      root.dataset.state = 'error';
+      root.setAttribute('aria-busy', 'false');
     });
 })();

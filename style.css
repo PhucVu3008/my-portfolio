@@ -728,6 +728,20 @@ a:hover { text-decoration:underline; }
 /* ── GitHub Activity ─────────────────────────────────────────── */
 .activity-loading {
   font-size:14px; color:var(--color-mute);
+  display:flex; align-items:center; gap:10px;
+}
+.activity-loading::before {
+  content:'';
+  width:14px; height:14px;
+  border:2px solid var(--color-hairline);
+  border-top-color:var(--color-mute);
+  border-radius:50%;
+  animation:activity-spin 0.7s linear infinite;
+  flex-shrink:0;
+}
+@keyframes activity-spin { to { transform:rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .activity-loading::before { animation:none; }
 }
 .activity-stats {
   display:grid; grid-template-columns:repeat(4,1fr);
