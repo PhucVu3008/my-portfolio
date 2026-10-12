@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://phucvu3008.github.io/my-portfolio/sitemap.xml

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vu Minh Phuc — Resume</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root { --ink:#201d1d; --body:#424245; --mute:#646262; --hairline:rgba(15,0,0,0.12); --canvas:#fff; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{font-size:11px}
+  body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--canvas);line-height:1.5;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .page{max-width:780px;margin:0 auto;padding:36px 40px 28px}
+  .header{border-bottom:2px solid var(--ink);padding-bottom:16px;margin-bottom:18px}
+  .header-name{font-size:26px;font-weight:700;letter-spacing:-0.02em;line-height:1.1}
+  .header-headline{font-size:11px;font-weight:500;color:var(--mute);margin-top:4px}
+  .header-contacts{margin-top:10px;display:flex;flex-wrap:wrap;gap:4px 16px;font-size:9.5px;color:var(--mute)}
+  .header-contacts a{color:var(--mute);text-decoration:none}
+  .section{margin-bottom:16px}
+  .section-title{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);border-bottom:1px solid var(--hairline);padding-bottom:4px;margin-bottom:10px}
+  .about-text{font-size:10px;color:var(--body);line-height:1.6}
+  .exp-item{margin-bottom:12px}
+  .exp-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .exp-role{font-size:11px;font-weight:700}
+  .exp-company{font-size:10px;color:var(--mute);font-weight:500}
+  .exp-period{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--mute);white-space:nowrap}
+  .exp-bullets{margin-top:4px;padding-left:14px}
+  .exp-bullets li{font-size:9.5px;color:var(--body);line-height:1.55;margin-bottom:2px}
+  .proj-item{margin-bottom:10px}
+  .proj-name{font-size:10.5px;font-weight:700}
+  .proj-meta{font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--mute)}
+  .proj-desc{font-size:9.5px;color:var(--body);line-height:1.55;margin-top:2px}
+  .proj-tags{margin-top:3px;display:flex;flex-wrap:wrap;gap:4px}
+  .proj-tag{font-family:'JetBrains Mono',monospace;font-size:7.5px;color:var(--mute);background:#f1eeee;padding:1px 5px;border-radius:3px}
+  .skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 24px}
+  .skill-group-label{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:700;text-transform:uppercase;color:var(--mute);margin-bottom:3px}
+  .skill-items{font-size:9.5px;color:var(--body);line-height:1.5}
+  .edu-row{display:flex;justify-content:space-between;gap:12px}
+  .edu-degree{font-size:10.5px;font-weight:700}
+  .edu-school{font-size:10px;color:var(--body)}
+  .edu-note{font-size:9px;color:var(--mute);margin-top:2px}
+  .cert-item{display:flex;justify-content:space-between;gap:12px;margin-bottom:6px}
+  .cert-name{font-size:10px;font-weight:600}
+  .cert-issuer{font-size:9px;color:var(--mute)}
+  @media print{body{padding:0}.page{padding:28px 32px 20px;max-width:none}a{color:var(--mute)!important}}
+  @page{size:A4;margin:0}
+</style>
+</head>
+<body>
+<div class="page" id="resume-root">
+  <div class="header">
+    <div class="header-name" id="r-name"></div>
+    <div class="header-headline" id="r-headline"></div>
+    <div class="header-contacts" id="r-contacts"></div>
+  </div>
+  <div class="section"><div class="section-title">About</div><p class="about-text" id="r-about"></p></div>
+  <div class="section"><div class="section-title">Skills</div><div class="skills-grid" id="r-skills"></div></div>
+  <div class="section"><div class="section-title">Experience</div><div id="r-exp"></div></div>
+  <div class="section"><div class="section-title">Projects</div><div id="r-projects"></div></div>
+  <div class="section"><div class="section-title">Education</div><div id="r-edu"></div></div>
+  <div class="section"><div class="section-title">Certifications</div><div id="r-certs"></div></div>
+</div>
+<script>
+(async()=>{
+  try{
+    const d=await (await fetch('data.json')).json();
+    document.getElementById('r-name').textContent=d.person.name+' — '+d.person.alias;
+    document.getElementById('r-headline').textContent=d.person.headline+' · '+d.person.location;
+    document.getElementById('r-contacts').innerHTML=[
+      `<a href="mailto:${d.person.email}">${d.person.email}</a>`,
+      `<a href="${d.person.github}" target="_blank">${d.person.github.replace('https://','')}</a>`,
+      `<a href="${d.person.linkedin}" target="_blank">${d.person.linkedin.replace('https://','')}</a>`,
+      d.person.kaggle?`<a href="${d.person.kaggle}" target="_blank">${d.person.kaggle.replace('https://','')}</a>`:''
+    ].filter(Boolean).join(' · ');
+    document.getElementById('r-about').innerHTML=d.about;
+    document.getElementById('r-skills').innerHTML=d.skills.map(g=>`<div><div class="skill-group-label">${g.group}</div><div class="skill-items">${g.items.join(' · ')}</div></div>`).join('');
+    document.getElementById('r-exp').innerHTML=d.experience.map(e=>`<div class="exp-item"><div class="exp-head"><div><div class="exp-role">${e.role}</div><div class="exp-company">${e.company}</div></div><div class="exp-period">${e.period}</div></div><ul class="exp-bullets">${e.bullets.map(b=>`<li>${b}</li>`).join('')}</ul></div>`).join('');
+    document.getElementById('r-projects').innerHTML=d.projects.map(p=>`<div class="proj-item"><div style="display:flex;justify-content:space-between;gap:12px"><span class="proj-name">${p.name}${p.contributor?' <span style="font-weight:400;color:var(--mute);font-size:9px">[contributor]</span>':''}</span><span class="proj-meta">${p.period} · ${p.category}</span></div><div class="proj-desc">${p.desc}</div><div class="proj-tags">${p.tags.map(t=>`<span class="proj-tag">${t}</span>`).join('')}</div></div>`).join('');
+    document.getElementById('r-edu').innerHTML=d.education.map(e=>`<div class="edu-row"><div><div class="edu-degree">${e.degree}</div><div class="edu-school">${e.school}</div><div class="edu-note">${e.note||''}</div></div><div class="exp-period">${e.period}</div></div>`).join('');
+    document.getElementById('r-certs').innerHTML=d.certifications.map(c=>`<div class="cert-item"><div><span class="cert-name">${c.name}</span> <span class="cert-issuer">— ${c.issuer}</span></div><span class="exp-period">${c.year}</span></div>`).join('');
+    document.documentElement.dataset.resumeReady='true';
+  }catch(e){console.error(e);document.documentElement.dataset.resumeReady='error'}
+})();
+</script>
+</body>
+</html>

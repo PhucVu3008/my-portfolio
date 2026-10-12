@@ -1,0 +1,160 @@
+{
+  "site": {
+    "title": "Evan Vu — Portfolio",
+    "description": "Vu Minh Phuc (Evan Vu) — Node.js Developer & CS undergraduate at Ton Duc Thang University. Building production backends with Fastify, TypeScript, PostgreSQL, and AI integrations.",
+    "url": "https://phucvu3008.github.io/my-portfolio/",
+    "ogImage": "og-image.png",
+    "lang": "en"
+  },
+  "person": {
+    "name": "Vu Minh Phuc",
+    "alias": "Evan",
+    "headline": "Backend Engineer & AI/ML Enthusiast",
+    "tagline": "CS undergraduate at Ton Duc Thang University. Building production backends with Node.js + TypeScript, and exploring AI/ML & Computer Vision.",
+    "badge": "Node.js Developer @ KOOLA · open to new opportunities",
+    "location": "Ho Chi Minh City, Vietnam",
+    "email": "vmphuc3008@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/evanvu",
+    "github": "https://github.com/PhucVu3008",
+    "kaggle": "https://www.kaggle.com/phucvu3008",
+    "aptisUrl": "https://bit.ly/aptis-certificate"
+  },
+  "about": "I am a Computer Science undergraduate at Ton Duc Thang University, currently working as a <strong>Node.js Developer at KOOLA International Technology Solutions</strong> — building and maintaining production backends with Fastify 4, TypeScript, and PostgreSQL, shipping a bilingual AI-powered website with Google Gemini + pgvector, and setting up Docker/CI-CD infrastructure.<br><br>On the AI side, I have hands-on experience in computer vision: face recognition with ArcFace, MediaPipe Face Mesh landmark detection, and a multi-stage anti-spoofing pipeline — alongside university-level study of Python, NumPy/Pandas, scikit-learn, and OpenCV.<br><br>I also bring 3+ years of teaching experience — independently leading coding classes for students aged 7–18 — which sharpened my communication, adaptability, and problem-solving skills. I am eager to grow in international, technically demanding environments.",
+  "skills": [
+    { "group": "ML / AI", "items": ["Python", "NumPy / Pandas", "scikit-learn", "PyTorch (basic)", "OpenCV", "ArcFace / MediaPipe"] },
+    { "group": "Backend & Web", "items": ["Node.js", "TypeScript", "Fastify 4", "Next.js 14", "PostgreSQL", "MongoDB", "REST API / JWT"] },
+    { "group": "DevOps & Tools", "items": ["Docker / Compose", "Nginx", "GitHub Actions CI/CD", "Cloudflare Tunnel", "Linux CLI", "Git / GitHub"] },
+    { "group": "Soft Skills", "items": ["Teaching & Mentoring", "Technical Communication", "Teamwork", "Problem Solving"] }
+  ],
+  "experience": [
+    {
+      "period": "Jan 2026 — Present",
+      "company": "KOOLA International Technology Solutions",
+      "role": "Node.js Developer",
+      "bullets": [
+        "Built and maintained the production backend for <strong>koola.vn</strong> using Fastify 4 + TypeScript, serving bilingual (Vi/EN) content with a full admin API secured by JWT access/refresh tokens.",
+        "Integrated Google Gemini API with <strong>pgvector</strong> semantic search on PostgreSQL to power an AI chat assistant — handling embedding generation, vector similarity queries, and streaming responses.",
+        "Designed raw-SQL repositories (no ORM) against PostgreSQL 16, authored migrations, and set up Prometheus health-check endpoints.",
+        "Containerised the entire stack (Fastify API + Next.js + Nginx + PostgreSQL) with Docker Compose and configured Cloudflare Tunnel for zero-trust ingress.",
+        "Shipped automated CI/CD via GitHub Actions: build, test, rsync deploy to VPS on every push to <code>main</code>.",
+        "Contributed face-attendance kiosk module to the company ERP: ArcFace recognition, MediaPipe Face Mesh landmark detection, and a multi-stage anti-spoofing pipeline (blink EAR + head-nod liveness + MiniFASNetV2)."
+      ]
+    },
+    {
+      "period": "Apr 2023 — Aug 2025",
+      "company": "Algorithmics Vietnam",
+      "role": "Programming Teacher",
+      "bullets": [
+        "Independently led coding classes for students aged 7–18, covering Scratch, Python, and Lua.",
+        "Took full responsibility as the main instructor for multiple classes, ensuring lesson delivery, student engagement, and classroom management.",
+        "Adapted teaching methods to different age groups and learning styles, developing students' logical thinking and foundational programming skills.",
+        "Monitored student progress, provided constructive feedback, and maintained communication with parents."
+      ]
+    },
+    {
+      "period": "Aug 2022 — Dec 2022",
+      "company": "mangoSTEEMS Vietnam",
+      "role": "Teaching Assistant",
+      "bullets": [
+        "Assisted the lead teacher in designing and organizing effective lesson plans tailored to student needs.",
+        "Collaborated with instructors to identify learning challenges and proposed appropriate interventions.",
+        "Provided additional instruction to students requiring extra support to grasp key concepts."
+      ]
+    },
+    {
+      "period": "Mar 2022 — Feb 2023",
+      "company": "KDI Education",
+      "role": "Teaching Assistant",
+      "bullets": [
+        "Prepared teaching materials and set up necessary equipment before each class to ensure smooth lesson delivery.",
+        "Managed student attendance and maintained accurate records.",
+        "Assisted the lead teacher during lessons by supporting student engagement and reinforcing key concepts."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "period": "Aug 2021 — Present",
+      "location": "Vietnam",
+      "degree": "B.Sc. Computer Science",
+      "school": "Ton Duc Thang University",
+      "note": "[*] Coursework in algorithms, data structures, software engineering, databases, and machine learning fundamentals.",
+      "expectedGraduation": "2026"
+    }
+  ],
+  "projects": [
+    {
+      "period": "2025 – now",
+      "category": "Full-Stack",
+      "name": "koola.vn — Company Website",
+      "desc": "Production monorepo for KOOLA International Technology Solutions. Bilingual (Vi/EN) site with an AI chat assistant powered by Google Gemini and pgvector semantic search, a full admin panel, JWT auth, and automated CI/CD deployment to a self-hosted VPS via GitHub Actions + rsync.",
+      "tags": ["Next.js 14", "Fastify", "TypeScript", "PostgreSQL", "pgvector", "Google Gemini", "Docker"],
+      "links": [
+        { "label": "github", "href": "https://github.com/PhucVu3008/koola-website" },
+        { "label": "live site", "href": "https://koola.vn" }
+      ]
+    },
+    {
+      "period": "2025",
+      "category": "Full-Stack",
+      "name": "Koola Demo — Full-Stack Boilerplate",
+      "desc": "Full-stack starter built to validate the KOOLA architecture before production. Node.js/Express REST API with JWT authentication, MongoDB, and a Next.js 15 frontend. Containerised with Docker Compose for one-command local development.",
+      "tags": ["Node.js", "Express", "MongoDB", "Next.js 15", "TypeScript", "Docker", "JWT"],
+      "links": [{ "label": "github", "href": "https://github.com/PhucVu3008/koola-demo" }]
+    },
+    {
+      "period": "2025",
+      "category": "Computer Vision",
+      "name": "Traffic Sign Detection — Non-AI",
+      "desc": "University project demonstrating traffic sign detection using classical computer vision techniques — no deep learning. Combines colour-based segmentation and geometric shape analysis to locate and classify road signs, highlighting the contrast between traditional CV and modern neural approaches.",
+      "tags": ["Computer Vision", "OpenCV", "Image Processing", "Python"],
+      "links": [{ "label": "github", "href": "https://github.com/PhucVu3008/Trafic_Sign_Detection_NonAI" }]
+    },
+    {
+      "period": "2025 – now",
+      "category": "Computer Vision",
+      "name": "ERP Face Attendance Kiosk",
+      "contributor": true,
+      "desc": "Built the entire face attendance kiosk module inside an ERP system. Implemented ArcFace-based face recognition with a multi-stage anti-spoofing pipeline: blink detection via Eye Aspect Ratio (EAR), head-nod liveness challenge, and passive liveness with MiniFASNetV2. Used MediaPipe Face Mesh for landmark detection and YuNet for robust face detection. Admin enrollment flow features Face ID–style auto-capture with pose validation.",
+      "tags": ["ArcFace", "MediaPipe", "Anti-Spoofing", "Python", "TypeScript", "OpenCV"],
+      "links": [{ "label": "github", "href": "https://github.com/phantanquoc/ERP_V6" }]
+    },
+    {
+      "period": "2025",
+      "category": "Desktop App",
+      "name": "GimJi Restaurant Management",
+      "contributor": true,
+      "desc": "Team project building a restaurant management desktop app in C# WinForms with a clean 3-layer architecture. Responsible for the Order, Payment, and Login modules — including UI design, business logic, and data access layers.",
+      "tags": ["C#", "WinForms", "3-Layer Architecture", "SQL Server"],
+      "links": [{ "label": "github", "href": "https://github.com/thanhlongqax/GimJiRestaurant" }]
+    }
+  ],
+  "certifications": [
+    {
+      "year": "2024",
+      "category": "Language",
+      "name": "APTIS English — B2",
+      "issuer": "British Council",
+      "desc": "Cambridge ESOL-aligned assessment covering reading, writing, listening, and speaking. B2 (Upper-Intermediate) — capable of professional communication in English.",
+      "link": "https://bit.ly/aptis-certificate"
+    },
+    {
+      "year": "2024",
+      "category": "AI / ML",
+      "name": "Introduction to Machine Learning",
+      "issuer": "Kaggle",
+      "desc": "Covered decision trees, random forests, gradient boosting, cross-validation, and pipelines using scikit-learn on real-world tabular datasets."
+    },
+    {
+      "year": "2024",
+      "category": "AI / ML",
+      "name": "Intermediate Machine Learning",
+      "issuer": "Kaggle",
+      "desc": "Advanced topics: missing value handling, categorical encoding, XGBoost, data leakage, and feature engineering for tabular ML competitions."
+    }
+  ],
+  "contact": {
+    "headline": "Let's work together.",
+    "sub": "I am actively looking for AI/ML internships and entry-level opportunities. Feel free to reach out — I will get back to you within 24 hours."
+  }
+}

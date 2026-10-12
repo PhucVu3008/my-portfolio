@@ -2,13 +2,11 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   # Rebuild weekly so the GitHub-activity section stays fresh.
   # Sunday 03:17 UTC — deliberately off the top of the hour.
   schedule:
     - cron: '17 3 * * 0'
-  # Allow manual "Run workflow" from the Actions tab.
   workflow_dispatch:
 
 permissions:
@@ -18,7 +16,7 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -27,28 +25,27 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-
+          node-version: 20
+          cache: npm
+      - name: Install deps
+        run: npm ci || npm install
       - name: Generate GitHub activity data
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_USERNAME: ${{ github.repository_owner }}
         run: node scripts/fetch-github-activity.mjs
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
+      - name: Validate data
+        run: node scripts/generate-resume.mjs --check
+      - name: Generate resume PDF
+        run: node scripts/generate-resume.mjs
+      - uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

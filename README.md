@@ -61,12 +61,26 @@ python3 -m http.server 8080
 
 Then open `http://localhost:8080`.
 
+### Updating content (web + CV in one edit)
+
+Edit `data.json` — both the website and the resume PDF read from it.
+
+```bash
+npm install          # once, for PDF generation
+npm run resume:build # regenerates VuMinhPhuc_TDTU_Resume.pdf from resume.html + data.json
+```
+
+On every push to `main`, GitHub Actions regenerates the PDF automatically before deploying to GitHub Pages. The **cv →** button always serves the latest content without touching the layout.
+
 ---
 
 ## 📁 Project Structure
 
 ```
 my-portfolio/
+├── data.json         # Single source of truth — edit here, web + PDF both update
+├── resume.html       # Resume template (styled for PDF)
+├── scripts/generate-resume.mjs
 ├── index.html          # Single-page portfolio
 ├── style.css           # All styles (CSS custom properties)
 ├── script.js           # Animations, typewriter, nav scroll-spy

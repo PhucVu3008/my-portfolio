@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+/* JetBrains Mono loaded via <link> in index.html with preconnect + display=swap — no @import */
 
 /* ── Design Tokens ─────────────────────────────────────────── */
 :root {
@@ -176,6 +176,21 @@
   .contact-headline { font-size: 20px; }
 }
 
+
+/* ── Skip link (a11y) ─────────────────────────────────────── */
+.skip-link {
+  position:absolute; left:-9999px; top:8px;
+  background:var(--color-ink); color:var(--color-canvas);
+  padding:8px 14px; border-radius:var(--r-sm);
+  font-family:var(--font); font-size:14px; z-index:999;
+}
+.skip-link:focus { left:12px; }
+
+/* ── Reduced motion ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,*::before,*::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+  .reveal { opacity:1 !important; transform:none !important; }
+}
 /* ── Reset ──────────────────────────────────────────────────── */
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
 

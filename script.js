@@ -1,4 +1,5 @@
 // ── Dark Mode ─────────────────────────────────────────────────
+// FOUC handled inline in <head>; here just wire toggle + respect system pref fallback
 const themeToggle = document.getElementById('theme-toggle');
 const savedTheme  = localStorage.getItem('theme');
 if (savedTheme) {
@@ -15,6 +16,9 @@ if (themeToggle) {
   });
 }
 
+
+// Respect reduced motion — skip heavy animations
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 // ── Back to Top ───────────────────────────────────────────────
 const backToTop = document.getElementById('back-to-top');
 if (backToTop) {
@@ -150,7 +154,7 @@ const revealObserver = new IntersectionObserver(entries => {
     }
   });
 }, { threshold: 0.08 });
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+if (prefersReducedMotion) { document.querySelectorAll('.reveal').forEach(el => { el.style.opacity='1'; el.style.transform='none'; }); } else { document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el)); }
 
 
 // ── ASCII Art: per-character interactive animation ────────────
@@ -281,7 +285,7 @@ function initAsciiArt() {
   setTimeout(startIdle, 1200);
 }
 
-initAsciiArt();
+if (!prefersReducedMotion) initAsciiArt();
 
 
 // ── Typed terminal command ─────────────────────────────────────

@@ -1,0 +1,12 @@
+{
+  "name": "evan-portfolio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "resume:check": "node scripts/generate-resume.mjs --check",
+    "resume:build": "node scripts/generate-resume.mjs"
+  },
+  "devDependencies": {
+    "puppeteer": "^22.15.0"
+  }
+}
