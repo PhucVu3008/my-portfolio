@@ -20,7 +20,7 @@ if (themeToggle) {
 // Respect reduced motion — skip heavy animations
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// ── Scroll progress + parallax (rAF, respects reduced motion) ────
+// ── Scroll progress + parallax + constellation ───────────────
 (function initScrollFx() {
   const bar = document.getElementById('scroll-progress');
   const blobs = document.querySelectorAll('.bg-blob');
@@ -44,6 +44,159 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+})();
+
+// ── Constellation canvas (tech vibe) ──────────────────────────
+(function initConstellation() {
+  const canvas = document.getElementById('bg-canvas');
+  if (!canvas || prefersReducedMotion) return;
+  // Reduce on mobile / low-power
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  const dpr = Math.min(window.devicePixelRatio || 1, 1.8);
+  const ctx = canvas.getContext('2d', { alpha: true });
+  if (!ctx) return;
+
+  let w, h, particles = [];
+  let mouse = { x: -9999, y: -9999 };
+  let rafId = 0;
+  let scrollBoost = 0;
+
+  const COUNT = isMobile ? 42 : 72;
+  const LINK_DIST = isMobile ? 110 : 140;
+  const MOUSE_DIST = 160;
+
+  function resize() {
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    seed();
+  }
+
+  function seed() {
+    particles = [];
+    for (let i = 0; i < COUNT; i++) {
+      particles.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.45,
+        vy: (Math.random() - 0.5) * 0.45,
+        r: Math.random() * 1.2 + 0.7,
+        pulse: Math.random() * Math.PI * 2,
+      });
+    }
+  }
+
+  // Mouse + scroll interaction
+  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+  window.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
+  let scrollT = 0;
+  window.addEventListener('scroll', () => {
+    const p = window.scrollY / Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    scrollBoost = p * 0.6; // 0..0.6 extra speed when scrolled
+    scrollT = p;
+  }, { passive: true });
+
+  // Pause when tab hidden
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) cancelAnimationFrame(rafId);
+    else rafId = requestAnimationFrame(frame);
+  });
+
+  function frame(t) {
+    rafId = requestAnimationFrame(frame);
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const dotColor = isDark ? '245, 240, 235' : '32, 29, 29';
+    const lineColor = isDark ? '120, 130, 150' : '70, 80, 110';
+    ctx.clearRect(0, 0, w, h);
+
+    // Update positions
+    for (const p of particles) {
+      const s = 1 + scrollBoost;
+      p.x += p.vx * s;
+      p.y += p.vy * s;
+      p.pulse += 0.025;
+      // Bounce
+      if (p.x < 0 || p.x > w) p.vx *= -1;
+      if (p.y < 0 || p.y > h) p.vy *= -1;
+      p.x = Math.max(0, Math.min(w, p.x));
+      p.y = Math.max(0, Math.min(h, p.y));
+    }
+
+    // Lines between close particles
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d = Math.hypot(dx, dy);
+        if (d < LINK_DIST) {
+          const a = (1 - d / LINK_DIST) * 0.22;
+          ctx.strokeStyle = `rgba(${lineColor}, ${a.toFixed(3)})`;
+          ctx.lineWidth = 0.7;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Mouse connections
+    for (const p of particles) {
+      const d = Math.hypot(p.x - mouse.x, p.y - mouse.y);
+      if (d < MOUSE_DIST) {
+        const a = (1 - d / MOUSE_DIST) * 0.30;
+        ctx.strokeStyle = `rgba(${lineColor}, ${a.toFixed(3)})`;
+        ctx.lineWidth = 0.9;
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.stroke();
+      }
+    }
+
+    // Dots + glow on hover
+    for (const p of particles) {
+      const d = Math.hypot(p.x - mouse.x, p.y - mouse.y);
+      const hover = d < 80 ? 1 : 0;
+      const glow = (Math.sin(p.pulse) * 0.15 + 0.85);
+      const r = p.r * (hover ? 1.7 : 1) * glow;
+      const alpha = 0.55 + glow * 0.18 + hover * 0.22;
+
+      // Outer glow
+      if (hover) {
+        ctx.fillStyle = `rgba(${dotColor}, 0.20)`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, r + 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.fillStyle = `rgba(${dotColor}, ${alpha.toFixed(3)})`;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Tiny "data packet" spark traveling along mouse line occasionally
+      if (hover && Math.random() < 0.012) {
+        ctx.fillStyle = `rgba(${dotColor}, 0.95)`;
+        ctx.beginPath();
+        ctx.arc(p.x + (mouse.x - p.x) * 0.35, p.y + (mouse.y - p.y) * 0.35, 1.4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // Scroll progress glow at top (sync canvas tint)
+    if (scrollT > 0.02) {
+      ctx.fillStyle = `rgba(0, 122, 255, ${Math.min(0.06, scrollT * 0.08).toFixed(3)})`;
+      ctx.fillRect(0, 0, w, 2);
+    }
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  rafId = requestAnimationFrame(frame);
 })();
 
 // ── Back to Top ───────────────────────────────────────────────
