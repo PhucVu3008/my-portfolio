@@ -135,7 +135,8 @@ function mapEvent(ev) {
   const when = ev.created_at;
   switch (ev.type) {
     case 'PushEvent': {
-      const n = ev.payload?.commits?.length || ev.payload?.size || 0;
+      const n = ev.payload?.distinct_size ?? ev.payload?.size ?? ev.payload?.commits?.length ?? 0;
+      if (!n) return { type: 'push', text: `Pushed to`, repo, when };
       return { type: 'push', text: `Pushed ${n} commit${n === 1 ? '' : 's'} to`, repo, when };
     }
     case 'CreateEvent':
