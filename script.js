@@ -59,7 +59,6 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
   let w, h, particles = [];
   let mouse = { x: -9999, y: -9999 };
   let rafId = 0;
-  let scrollBoost = 0;
 
   const COUNT = isMobile ? 42 : 72;
   const LINK_DIST = isMobile ? 110 : 140;
@@ -93,12 +92,6 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
   // Mouse + scroll interaction
   window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
   window.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
-  let scrollT = 0;
-  window.addEventListener('scroll', () => {
-    const p = window.scrollY / Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-    scrollBoost = p * 0.6; // 0..0.6 extra speed when scrolled
-    scrollT = p;
-  }, { passive: true });
 
   // Pause when tab hidden
   document.addEventListener('visibilitychange', () => {
@@ -115,9 +108,8 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 
     // Update positions
     for (const p of particles) {
-      const s = 1 + scrollBoost;
-      p.x += p.vx * s;
-      p.y += p.vy * s;
+      p.x += p.vx;
+      p.y += p.vy;
       p.pulse += 0.025;
       // Bounce
       if (p.x < 0 || p.x > w) p.vx *= -1;
@@ -187,11 +179,6 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
       }
     }
 
-    // Scroll progress glow at top (sync canvas tint)
-    if (scrollT > 0.02) {
-      ctx.fillStyle = `rgba(0, 122, 255, ${Math.min(0.06, scrollT * 0.08).toFixed(3)})`;
-      ctx.fillRect(0, 0, w, 2);
-    }
   }
 
   resize();
