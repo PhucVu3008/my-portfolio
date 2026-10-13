@@ -60,13 +60,14 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
   let mouse = { x: -9999, y: -9999 };
   let rafId = 0;
 
-  const COUNT = isMobile ? 42 : 72;
+  const COUNT = isMobile ? 55 : 110;
   const LINK_DIST = isMobile ? 110 : 140;
   const MOUSE_DIST = 160;
 
   function resize() {
+    const docH = document.documentElement.scrollHeight;
     w = window.innerWidth;
-    h = window.innerHeight;
+    h = docH;
     canvas.width = w * dpr;
     canvas.height = h * dpr;
     canvas.style.width = w + 'px';
@@ -89,8 +90,8 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
     }
   }
 
-  // Mouse + scroll interaction
-  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+  // Mouse: convert to document coordinates (canvas is absolute, full page)
+  window.addEventListener('mousemove', e => { mouse.x = e.clientX + window.scrollX; mouse.y = e.clientY + window.scrollY; }, { passive: true });
   window.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
 
   // Pause when tab hidden
@@ -98,6 +99,12 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
     if (document.hidden) cancelAnimationFrame(rafId);
     else rafId = requestAnimationFrame(frame);
   });
+
+  function inViewport(p) {
+    const top = window.scrollY - 160;
+    const bottom = window.scrollY + window.innerHeight + 160;
+    return p.y >= top && p.y <= bottom;
+  }
 
   function frame(t) {
     rafId = requestAnimationFrame(frame);
@@ -118,9 +125,11 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
       p.y = Math.max(0, Math.min(h, p.y));
     }
 
-    // Lines between close particles
+    // Lines between close particles — only if at least one is near viewport (perf)
     for (let i = 0; i < particles.length; i++) {
+      if (!inViewport(particles[i])) continue;
       for (let j = i + 1; j < particles.length; j++) {
+        if (!inViewport(particles[j])) continue;
         const dx = particles[i].x - particles[j].x;
         const dy = particles[i].y - particles[j].y;
         const d = Math.hypot(dx, dy);
@@ -150,8 +159,9 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
       }
     }
 
-    // Dots + glow on hover
+    // Dots + glow on hover — only draw if in/near viewport
     for (const p of particles) {
+      if (!inViewport(p)) continue;
       const d = Math.hypot(p.x - mouse.x, p.y - mouse.y);
       const hover = d < 80 ? 1 : 0;
       const glow = (Math.sin(p.pulse) * 0.15 + 0.85);
