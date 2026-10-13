@@ -19,6 +19,33 @@ if (themeToggle) {
 
 // Respect reduced motion — skip heavy animations
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ── Scroll progress + parallax (rAF, respects reduced motion) ────
+(function initScrollFx() {
+  const bar = document.getElementById('scroll-progress');
+  const blobs = document.querySelectorAll('.bg-blob');
+  const parallaxEnabled = !prefersReducedMotion && blobs.length > 0;
+  let ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const p = max > 0 ? window.scrollY / max : 0;
+      if (bar) bar.style.setProperty('--scroll', String(p));
+      if (parallaxEnabled) {
+        blobs.forEach((el, i) => {
+          const speed = [0.06, 0.10, 0.08][i] || 0.06;
+          el.style.setProperty('--parallax-y', (window.scrollY * speed).toFixed(1) + 'px');
+        });
+      }
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+
 // ── Back to Top ───────────────────────────────────────────────
 const backToTop = document.getElementById('back-to-top');
 if (backToTop) {

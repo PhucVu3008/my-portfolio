@@ -177,6 +177,76 @@
 }
 
 
+/* ── Scroll progress bar ─────────────────────────────────── */
+.scroll-progress {
+  position:fixed; top:0; left:0; height:2px; width:100%;
+  background:var(--color-ink);
+  transform-origin:left center;
+  transform:scaleX(var(--scroll, 0));
+  z-index:400; pointer-events:none;
+}
+
+/* ── Aurora background (subtle, behind content) ─────────────── */
+.bg-aurora {
+  position:fixed; inset:0; pointer-events:none; z-index:-1;
+  overflow:hidden;
+}
+.bg-blob {
+  position:absolute;
+  width: min(70vw, 700px); height: min(70vw, 700px);
+  border-radius:50%;
+  filter: blur(72px);
+  opacity:0.11;
+  will-change: transform, translate;
+  translate: 0 var(--parallax-y, 0);
+}
+.bg-blob--a {
+  background: radial-gradient(circle at 30% 40%, #007aff 0%, #5ac8fa 38%, transparent 72%);
+  top: -8%; left: -10%;
+  animation: blob-drift-a 22s ease-in-out infinite alternate;
+}
+.bg-blob--b {
+  background: radial-gradient(circle at 60% 50%, #af52de 0%, #ff375f 32%, transparent 70%);
+  top: 18%; right: -14%;
+  animation: blob-drift-b 26s ease-in-out infinite alternate;
+}
+.bg-blob--c {
+  background: radial-gradient(circle at 40% 40%, #30d158 0%, #007aff 42%, transparent 72%);
+  bottom: -12%; left: 22%;
+  animation: blob-drift-c 28s ease-in-out infinite alternate;
+}
+.bg-grid {
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(var(--color-hairline) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-hairline) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity:0.18;
+  mask-image: radial-gradient(ellipse at center, black 36%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 36%, transparent 78%);
+}
+[data-theme="dark"] .bg-blob { opacity:0.14; }
+[data-theme="dark"] .bg-grid { opacity:0.10; }
+
+@keyframes blob-drift-a {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(40px, 28px, 0) scale(1.08); }
+}
+@keyframes blob-drift-b {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(-36px, 32px, 0) scale(1.06); }
+}
+@keyframes blob-drift-c {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(28px, -24px, 0) scale(1.07); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bg-blob { animation:none !important; }
+}
+@media (max-width:768px) {
+  .bg-blob { filter: blur(56px); opacity:0.09; }
+}
+
 /* ── Skip link (a11y) ─────────────────────────────────────── */
 .skip-link {
   position:absolute; left:-9999px; top:8px;
