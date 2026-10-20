@@ -258,5 +258,59 @@
   "contact": {
     "headline": "Let's work together.",
     "sub": "I am actively looking for AI/ML internships and entry-level opportunities. Feel free to reach out — I will get back to you within 24 hours."
+  },
+  "resume": {
+    "portfolioUrl": "https://phucvu3008.github.io/my-portfolio/",
+    "summary": "Node.js Developer at KOOLA with production experience in Fastify + TypeScript + PostgreSQL backends, Gemini AI integration with pgvector semantic search, and Docker/CI-CD infrastructure. Hands-on in computer vision (ArcFace face recognition, MediaPipe landmarks, multi-stage anti-spoofing) and ERP module development.",
+    "skillLines": [
+      "Languages: TypeScript, JavaScript, Python, C#, SQL",
+      "Backend: Node.js, Fastify 4, Express 5, REST API, JWT",
+      "AI / CV: Google Gemini, pgvector, ArcFace, MediaPipe, OpenCV, scikit-learn",
+      "Data: PostgreSQL 16, Prisma, MongoDB",
+      "DevOps: Docker / Compose, Nginx, GitHub Actions, Cloudflare Tunnel, Linux"
+    ],
+    "experience": [
+      {
+        "period": "Jan 2026 — Present",
+        "company": "KOOLA International Technology Solutions",
+        "location": "Ho Chi Minh City, Vietnam",
+        "role": "Node.js Developer",
+        "bullets": [
+          "Shipped production Fastify 4 + TypeScript backend for koola.vn serving bilingual (Vi/EN) content with JWT-secured admin API, deployed via GitHub Actions + rsync on every push to main.",
+          "Built Gemini-powered AI chat assistant with pgvector semantic search on PostgreSQL — embedding generation, vector similarity queries, and streaming responses.",
+          "Designed raw-SQL repositories against PostgreSQL 16 with migrations and Prometheus health checks; containerised full stack (API + Next.js + Nginx + Postgres) with Docker Compose + Cloudflare Tunnel.",
+          "Contributed face-attendance kiosk module to company ERP: ArcFace recognition, MediaPipe Face Mesh landmarks, multi-stage anti-spoofing (blink EAR + head-nod liveness + MiniFASNetV2)."
+        ]
+      },
+      {
+        "period": "2022 — 2025",
+        "company": "Algorithmics Vietnam · KDI Education · mangoSTEEMS",
+        "location": "Ho Chi Minh City, Vietnam",
+        "role": "Programming Teacher / Teaching Assistant",
+        "bullets": [
+          "3+ years teaching coding (Scratch, Python, Lua) to students aged 7–18; independently led classes, sharpening technical communication and mentoring skills."
+        ]
+      }
+    ],
+    "selectedProjects": [
+      {
+        "name": "ANBINHFOODS ERP — Intelligent Manufacturing Platform",
+        "meta": "2026 – now · Full-Stack · [contributor]",
+        "desc": "Company ERP for a dried-fruit manufacturer (React + Express/Prisma/Postgres + FastAPI AI service). 50 commits: warehouse slip UI with print/Excel export, maintenance workflow refactor, test suites, CI.",
+        "tags": ["React", "Express", "Prisma", "PostgreSQL", "FastAPI"]
+      },
+      {
+        "name": "koola.vn — Company Website",
+        "meta": "2025 – now · Full-Stack",
+        "desc": "Production bilingual site with Gemini AI assistant, pgvector search, admin panel, JWT auth, automated CI/CD to self-hosted VPS.",
+        "tags": ["Next.js", "Fastify", "PostgreSQL", "pgvector", "Docker"]
+      },
+      {
+        "name": "ERP Face Attendance Kiosk",
+        "meta": "2025 – now · Computer Vision · [contributor]",
+        "desc": "Face recognition kiosk with multi-stage anti-spoofing pipeline and Face ID–style enrollment with pose validation.",
+        "tags": ["ArcFace", "MediaPipe", "MiniFASNetV2", "Python"]
+      }
+    ]
   }
 }

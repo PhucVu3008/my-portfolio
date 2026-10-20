@@ -56,7 +56,7 @@
       <div class="nav-right">
         <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">[dark]</button>
         <a
-          href="VuMinhPhuc_TDTU_Resume.pdf"
+          href="VuMinhPhuc-Resume.pdf"
           class="btn-primary"
           download
           aria-label="Download resume PDF"
@@ -341,172 +341,8 @@
     <div class="container">
       <h2 class="section-label reveal" id="proj-label">projects</h2>
 
-      <div class="projects-list">
-
-        <!-- ANBINHFOODS ERP (contributor, no public source) -->
-        <article class="project-item reveal reveal-delay-1">
-          <div class="project-meta">
-            <p>2026 – now</p>
-            <p>Full-Stack</p>
-          </div>
-          <div class="project-body">
-            <h3 class="project-name">ANBINHFOODS ERP — Intelligent Manufacturing Platform <span style="font-size:12px;opacity:0.5;">[contributor]</span></h3>
-            <p class="project-desc">
-              Company ERP system built for An Binh Foods, a dried-fruit manufacturer,
-              covering the full operations loop: quotation, purchasing, warehouse,
-              vacuum-drying production, quality, finance, and HR. Three services:
-              React 18 + Vite frontend, Express 5 + Prisma + PostgreSQL 16 backend
-              (155 models, ~90 services), and a FastAPI AI service with RAG chatbot
-              and ReAct agent. My contributions (50 commits): warehouse receipt/issue
-              slip UI with print and Excel export, maintenance request (YCSC) workflow
-              refactor, purchase request detail layout, plus test suites and CI workflow.
-            </p>
-            <div class="project-tags">
-              <span class="project-tag">React 18</span>
-              <span class="project-tag">Express 5</span>
-              <span class="project-tag">Prisma</span>
-              <span class="project-tag">PostgreSQL</span>
-              <span class="project-tag">FastAPI</span>
-              <span class="project-tag">TypeScript</span>
-              <span class="project-tag">Docker</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- koola-website -->
-        <article class="project-item reveal reveal-delay-1">
-          <div class="project-meta">
-            <p>2025 – now</p>
-            <p>Full-Stack</p>
-          </div>
-          <div class="project-body">
-            <h3 class="project-name">koola.vn — Company Website</h3>
-            <p class="project-desc">
-              Production monorepo for KOOLA International Technology Solutions.
-              Bilingual (Vi/EN) site with an AI chat assistant powered by Google Gemini
-              and pgvector semantic search, a full admin panel, JWT auth, and automated
-              CI/CD deployment to a self-hosted VPS via GitHub Actions + rsync.
-            </p>
-            <div class="project-tags">
-              <span class="project-tag">Next.js 14</span>
-              <span class="project-tag">Fastify</span>
-              <span class="project-tag">TypeScript</span>
-              <span class="project-tag">PostgreSQL</span>
-              <span class="project-tag">pgvector</span>
-              <span class="project-tag">Google Gemini</span>
-              <span class="project-tag">Docker</span>
-            </div>
-            <div class="project-links">
-              <a href="https://koola.vn" target="_blank" rel="noopener">→ live site</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- koola-demo -->
-        <article class="project-item reveal reveal-delay-2">
-          <div class="project-meta">
-            <p>2025</p>
-            <p>Full-Stack</p>
-          </div>
-          <div class="project-body">
-            <h3 class="project-name">Koola Demo — Full-Stack Boilerplate</h3>
-            <p class="project-desc">
-              Full-stack starter built to validate the KOOLA architecture before production.
-              Node.js/Express REST API with JWT authentication, MongoDB, and a Next.js 15
-              frontend. Containerised with Docker Compose for one-command local development.
-            </p>
-            <div class="project-tags">
-              <span class="project-tag">Node.js</span>
-              <span class="project-tag">Express</span>
-              <span class="project-tag">MongoDB</span>
-              <span class="project-tag">Next.js 15</span>
-              <span class="project-tag">TypeScript</span>
-              <span class="project-tag">Docker</span>
-              <span class="project-tag">JWT</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Trafic_Sign_Detection_NonAI -->
-        <article class="project-item reveal reveal-delay-3">
-          <div class="project-meta">
-            <p>2025</p>
-            <p>Computer Vision</p>
-          </div>
-          <div class="project-body">
-            <h3 class="project-name">Traffic Sign Detection — Non-AI</h3>
-            <p class="project-desc">
-              University project demonstrating traffic sign detection using classical
-              computer vision techniques — no deep learning. Combines colour-based
-              segmentation and geometric shape analysis to locate and classify road signs,
-              highlighting the contrast between traditional CV and modern neural approaches.
-            </p>
-            <div class="project-tags">
-              <span class="project-tag">Computer Vision</span>
-              <span class="project-tag">OpenCV</span>
-              <span class="project-tag">Image Processing</span>
-              <span class="project-tag">Python</span>
-            </div>
-            <div class="project-links">
-              <a href="https://github.com/PhucVu3008/Trafic_Sign_Detection_NonAI" target="_blank" rel="noopener">→ github</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- ERP — Face Attendance Kiosk (contributor) -->
-        <article class="project-item reveal reveal-delay-4">
-          <div class="project-meta">
-            <p>2025 – now</p>
-            <p>Computer Vision</p>
-          </div>
-          <div class="project-body">
-            <h3 class="project-name">ERP Face Attendance Kiosk <span style="font-size:12px;opacity:0.5;">[contributor]</span></h3>
-            <p class="project-desc">
-              Face attendance kiosk module built inside a company ERP system.
-              Implemented ArcFace-based face recognition with a multi-stage anti-spoofing
-              pipeline: blink detection via Eye Aspect Ratio (EAR), head-nod liveness
-              challenge, and passive liveness with MiniFASNetV2. Used MediaPipe Face Mesh
-              for landmark detection and YuNet for robust face detection. Admin enrollment
-              flow features Face ID–style auto-capture with pose validation.
-            </p>
-            <div class="project-tags">
-              <span class="project-tag">ArcFace</span>
-              <span class="project-tag">MediaPipe</span>
-              <span class="project-tag">YuNet</span>
-              <span class="project-tag">MiniFASNetV2</span>
-              <span class="project-tag">Anti-Spoofing</span>
-              <span class="project-tag">Python</span>
-              <span class="project-tag">TypeScript</span>
-              <span class="project-tag">OpenCV</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- GimJiRestaurant (contributor) -->
-        <article class="project-item reveal reveal-delay-5">
-          <div class="project-meta">
-            <p>2025</p>
-            <p>Desktop App</p>
-          </div>
-          <div class="project-body">
-            <h3 class="project-name">GimJi Restaurant Management <span style="font-size:12px;opacity:0.5;">[contributor]</span></h3>
-            <p class="project-desc">
-              Team project building a restaurant management desktop app in C# WinForms
-              with a clean 3-layer architecture. Responsible for the Order, Payment, and
-              Login modules — including UI design, business logic, and data access layers.
-            </p>
-            <div class="project-tags">
-              <span class="project-tag">C#</span>
-              <span class="project-tag">WinForms</span>
-              <span class="project-tag">3-Layer Architecture</span>
-              <span class="project-tag">SQL Server</span>
-            </div>
-            <div class="project-links">
-              <a href="https://github.com/thanhlongqax/GimJiRestaurant" target="_blank" rel="noopener">→ github</a>
-            </div>
-          </div>
-        </article>
-
+      <div class="projects-list" id="projects-root">
+        <!-- Populated at runtime by script.js from data.json. -->
       </div>
 
       <p class="reveal reveal-delay-3" style="margin-top: var(--sp-xl); font-size: 14px; color: var(--color-mute);">
@@ -632,7 +468,7 @@
           <li><a href="https://www.linkedin.com/in/evanvu" target="_blank" rel="noopener">linkedin</a></li>
           <li><a href="https://www.kaggle.com/phucvu3008" target="_blank" rel="noopener">kaggle</a></li>
           <li><a href="mailto:vmphuc3008@gmail.com">email</a></li>
-          <li><a href="VuMinhPhuc_TDTU_Resume.pdf" download>resume</a></li>
+          <li><a href="VuMinhPhuc-Resume.pdf" download>resume</a></li>
         </ul>
       </div>
     </div>

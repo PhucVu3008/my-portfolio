@@ -333,6 +333,26 @@ const revealObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.08 });
 if (prefersReducedMotion) { document.querySelectorAll('.reveal').forEach(el => { el.style.opacity='1'; el.style.transform='none'; }); } else { document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el)); }
 
+// Late-rendered content (projects from data.json) also needs reveal wiring.
+// MutationObserver picks up .reveal nodes added after initial scan.
+(function initLateReveal() {
+  const observeReveals = scope => {
+    scope.querySelectorAll('.reveal').forEach(el => {
+      if (prefersReducedMotion) { el.style.opacity = '1'; el.style.transform = 'none'; }
+      else revealObserver.observe(el);
+    });
+  };
+  new MutationObserver(muts => {
+    for (const m of muts) {
+      m.addedNodes.forEach(n => {
+        if (n.nodeType !== Node.ELEMENT_NODE) return;
+        if (n.classList && n.classList.contains('reveal')) observeReveals(n.parentNode || document);
+        else if (n.querySelectorAll) observeReveals(n);
+      });
+    }
+  }).observe(document.body, { childList: true, subtree: true });
+})();
+
 
 // ── ASCII Art: per-character interactive animation ────────────
 function initAsciiArt() {
@@ -504,6 +524,53 @@ function scheduleType() {
   if (!typePaused) setTimeout(type, isDeleting ? 28 : 62);
 }
 setTimeout(type, 1800);
+
+
+// ── Projects (rendered from data.json) ───────────────────────
+// Single source of truth: edit data.json → projects list updates.
+// Fails silently to keep the page clean.
+(function initProjects() {
+  const root = document.getElementById('projects-root');
+  if (!root) return;
+
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  fetch('data.json', { cache: 'no-cache' })
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(d => {
+      const projects = d.projects || [];
+      root.innerHTML = projects.map((p, i) => `
+        <article class="project-item reveal reveal-delay-${(i % 5) + 1}">
+          <div class="project-meta">
+            <p>${esc(p.period)}</p>
+            <p>${esc(p.category)}</p>
+          </div>
+          <div class="project-body">
+            <h3 class="project-name">${esc(p.name)}${p.contributor ? ' <span style="font-size:12px;opacity:0.5;">[contributor]</span>' : ''}</h3>
+            <p class="project-desc">${p.desc}</p>
+            <div class="project-tags">
+              ${(p.tags || []).map(t => `<span class="project-tag">${esc(t)}</span>`).join('')}
+            </div>
+            ${(p.links || []).length ? `
+            <div class="project-links">
+              ${(p.links || []).map(l => `<a href="${esc(l.href)}" target="_blank" rel="noopener">→ ${esc(l.label)}</a>`).join('')}
+            </div>` : ''}
+          </div>
+        </article>`).join('');
+      // Reveal animation is wired via MutationObserver below (next to
+      // revealObserver definition) — no action needed here, except for
+      // reduced-motion where elements must be visible immediately.
+      if (prefersReducedMotion) {
+        root.querySelectorAll('.reveal').forEach(el => {
+          el.style.opacity = '1'; el.style.transform = 'none';
+        });
+      }
+    })
+    .catch(() => {
+      root.innerHTML = '<p style="color:var(--color-mute)">could not load projects.</p>';
+    });
+})();
 
 
 // ── GitHub Activity ───────────────────────────────────────────
