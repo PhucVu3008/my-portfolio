@@ -261,7 +261,7 @@
   },
   "resume": {
     "portfolioUrl": "https://phucvu3008.github.io/my-portfolio/",
-    "summary": "Node.js Developer at KOOLA with production experience in Fastify + TypeScript + PostgreSQL backends, Gemini AI integration with pgvector semantic search, and Docker/CI-CD infrastructure. Hands-on in computer vision (ArcFace face recognition, MediaPipe landmarks, multi-stage anti-spoofing) and ERP module development.",
+    "summary": "Node.js Developer at KOOLA with production experience in Fastify + TypeScript + PostgreSQL backends, Gemini AI integration with pgvector semantic search, and Docker/CI-CD infrastructure. Building an internal ERP for a ~200-employee food manufacturer (currently in development and pilot testing). Hands-on in computer vision (ArcFace face recognition, MediaPipe landmarks, multi-stage anti-spoofing).",
     "skillLines": [
       "Languages: TypeScript, JavaScript, Python, C#, SQL",
       "Backend: Node.js, Fastify 4, Express 5, REST API, JWT",
@@ -279,6 +279,7 @@
           "Shipped production Fastify 4 + TypeScript backend for koola.vn serving bilingual (Vi/EN) content with JWT-secured admin API, deployed via GitHub Actions + rsync on every push to main.",
           "Built Gemini-powered AI chat assistant with pgvector semantic search on PostgreSQL — embedding generation, vector similarity queries, and streaming responses.",
           "Designed raw-SQL repositories against PostgreSQL 16 with migrations and Prometheus health checks; containerised full stack (API + Next.js + Nginx + Postgres) with Docker Compose + Cloudflare Tunnel.",
+          "Building internal ERP for An Binh Foods (~200 employees, dried-fruit manufacturing), currently in development and pilot testing: 50 commits across warehouse receipt/issue slip UI (print + Excel export), maintenance request (YCSC) workflow refactor, purchase request layouts, Jest test suites, and CI workflow.",
           "Contributed face-attendance kiosk module to company ERP: ArcFace recognition, MediaPipe Face Mesh landmarks, multi-stage anti-spoofing (blink EAR + head-nod liveness + MiniFASNetV2)."
         ]
       },
@@ -296,7 +297,7 @@
       {
         "name": "ANBINHFOODS ERP — Intelligent Manufacturing Platform",
         "meta": "2026 – now · Full-Stack · [contributor]",
-        "desc": "Company ERP for a dried-fruit manufacturer (React + Express/Prisma/Postgres + FastAPI AI service). 50 commits: warehouse slip UI with print/Excel export, maintenance workflow refactor, test suites, CI.",
+        "desc": "Internal ERP for a ~200-employee dried-fruit manufacturer, in development and pilot testing (React + Express/Prisma/Postgres + FastAPI AI service). 50 commits: warehouse slip UI with print/Excel export, maintenance workflow refactor, test suites, CI.",
         "tags": ["React", "Express", "Prisma", "PostgreSQL", "FastAPI"]
       },
       {
