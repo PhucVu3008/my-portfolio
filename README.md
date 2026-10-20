@@ -24,7 +24,10 @@ A single-page personal portfolio built with pure HTML, CSS, and vanilla JavaScri
 | **About** | Short bio, location, contact links |
 | **Skills** | Languages, frameworks, databases, tools |
 | **Experience** | Work history (most recent first) |
-| **Projects** | Selected GitHub projects with tech tags |
+| **Education** | Degree, school, coursework |
+| **Projects** | Selected projects with tech tags (rendered from `data.json`) |
+| **Activity** | GitHub contribution heatmap, stats, recent repos (auto-updated weekly) |
+| **Certifications** | Language + ML certificates |
 | **Contact** | Email, GitHub, LinkedIn |
 
 ---
@@ -67,7 +70,7 @@ Edit `data.json` — both the website and the resume PDF read from it.
 
 ```bash
 npm install          # once, for PDF generation
-npm run resume:build # regenerates VuMinhPhuc_TDTU_Resume.pdf from resume.html + data.json
+npm run resume:build # regenerates VuMinhPhuc-Resume.pdf from resume.html + data.json
 ```
 
 On every push to `main`, GitHub Actions regenerates the PDF automatically before deploying to GitHub Pages. The **cv →** button always serves the latest content without touching the layout.
@@ -78,17 +81,20 @@ On every push to `main`, GitHub Actions regenerates the PDF automatically before
 
 ```
 my-portfolio/
-├── data.json         # Single source of truth — edit here, web + PDF both update
-├── resume.html       # Resume template (styled for PDF)
-├── scripts/generate-resume.mjs
-├── index.html          # Single-page portfolio
-├── style.css           # All styles (CSS custom properties)
-├── script.js           # Animations, typewriter, nav scroll-spy
-├── DESIGN.md           # Design reference (opencode.ai aesthetic)
-├── VuMinhPhuc_TDTU_Resume.pdf
+├── data.json            # Single source of truth — edit here, web + PDF both update
+├── resume.html          # Resume template (styled for PDF, renders data.json → resume block)
+├── scripts/generate-resume.mjs   # Builds VuMinhPhuc-Resume.pdf via Puppeteer
+├── scripts/fetch-github-activity.mjs  # Weekly GitHub stats → data/github-activity.json
+├── index.html           # Single-page portfolio (projects rendered from data.json)
+├── 404.html             # Custom not-found page for GitHub Pages
+├── og-image.png         # Social share preview (from og-image.svg source)
+├── style.css            # All styles (CSS custom properties)
+├── script.js            # Animations, typewriter, nav scroll-spy, projects/activity render
+├── DESIGN.md            # Design reference (opencode.ai aesthetic)
+├── VuMinhPhuc-Resume.pdf  # Generated on CI — do not edit by hand
 └── .github/
     └── workflows/
-        └── deploy.yml  # GitHub Pages auto-deploy on push to main
+        └── deploy.yml   # GitHub Pages auto-deploy on push to main + weekly rebuild
 ```
 
 ---

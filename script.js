@@ -526,6 +526,46 @@ function scheduleType() {
 setTimeout(type, 1800);
 
 
+// ── Experience (rendered from data.json) ─────────────────────
+// NOTE: bullets intentionally contain trusted HTML (<strong>, <code>)
+// from data.json — same trust level as projects desc. Do NOT reuse
+// this pattern for untrusted user input.
+(function initExperience() {
+  const root = document.getElementById('experience-root');
+  if (!root) return;
+
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  fetch('data.json', { cache: 'no-cache' })
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(d => {
+      const items = d.experience || [];
+      root.innerHTML = items.map((e, i) => `
+        <article class="exp-item reveal reveal-delay-${(i % 5) + 1}">
+          <div class="exp-meta">
+            <p class="exp-period">${esc(e.period)}</p>
+            <p class="exp-company">${esc(e.company)}</p>
+          </div>
+          <div class="exp-body">
+            <h3 class="exp-role">${esc(e.role)}</h3>
+            <ul class="exp-bullets">
+              ${(e.bullets || []).map(b => `<li>${b}</li>`).join('')}
+            </ul>
+          </div>
+        </article>`).join('');
+      if (prefersReducedMotion) {
+        root.querySelectorAll('.reveal').forEach(el => {
+          el.style.opacity = '1'; el.style.transform = 'none';
+        });
+      }
+    })
+    .catch(() => {
+      root.innerHTML = '<p style="color:var(--color-mute)">could not load experience.</p>';
+    });
+})();
+
+
 // ── Projects (rendered from data.json) ───────────────────────
 // Single source of truth: edit data.json → projects list updates.
 // Fails silently to keep the page clean.

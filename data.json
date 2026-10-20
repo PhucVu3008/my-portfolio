@@ -11,7 +11,7 @@
     "alias": "Evan",
     "headline": "Backend Engineer & AI/ML Enthusiast",
     "tagline": "B.Sc. Computer Science, Ton Duc Thang University. Building production backends with Node.js + TypeScript, and exploring AI/ML & Computer Vision.",
-    "badge": "Node.js Developer @ KOOLA · open to new opportunities",
+    "badge": "Node.js Developer @ KOOLA · open to backend & AI opportunities",
     "location": "Ho Chi Minh City, Vietnam",
     "email": "vmphuc3008@gmail.com",
     "linkedin": "https://www.linkedin.com/in/evanvu",
@@ -19,7 +19,7 @@
     "kaggle": "https://www.kaggle.com/phucvu3008",
     "aptisUrl": "https://bit.ly/aptis-certificate"
   },
-  "about": "I am a B.Sc. Computer Science graduate from Ton Duc Thang University, currently working as a <strong>Node.js Developer at KOOLA International Technology Solutions</strong> — building and maintaining production backends with Fastify 4, TypeScript, and PostgreSQL, shipping a bilingual AI-powered website with Google Gemini + pgvector, and setting up Docker/CI-CD infrastructure.<br><br>On the AI side, I have hands-on experience in computer vision: face recognition with ArcFace, MediaPipe Face Mesh landmark detection, and a multi-stage anti-spoofing pipeline — alongside university-level study of Python, NumPy/Pandas, scikit-learn, and OpenCV.<br><br>I also bring 3+ years of teaching experience — independently leading coding classes for students aged 7–18 — which sharpened my communication, adaptability, and problem-solving skills. I am eager to grow in international, technically demanding environments.",
+  "about": "I am a B.Sc. Computer Science graduate from Ton Duc Thang University, currently working as a <strong>Node.js Developer at KOOLA International Technology Solutions</strong> — building and maintaining production backends with Fastify 4, TypeScript, and PostgreSQL, shipping a bilingual AI-powered website with Google Gemini + pgvector, and setting up Docker/CI-CD infrastructure.<br><br>Currently building an internal ERP for An Binh Foods (~200 employees, dried-fruit manufacturing) — now in development and pilot testing — alongside a face-attendance kiosk module with ArcFace recognition and multi-stage anti-spoofing.<br><br>On the AI side, I have hands-on experience in computer vision: face recognition with ArcFace, MediaPipe Face Mesh landmark detection, and a multi-stage anti-spoofing pipeline — alongside university-level study of Python, NumPy/Pandas, scikit-learn, and OpenCV.<br><br>I also bring 3+ years of teaching experience — independently leading coding classes for students aged 7–18 — which sharpened my communication, adaptability, and problem-solving skills. I am eager to grow in international, technically demanding environments.",
   "skills": [
     {
       "group": "ML / AI",
@@ -257,7 +257,7 @@
   ],
   "contact": {
     "headline": "Let's work together.",
-    "sub": "I am actively looking for AI/ML internships and entry-level opportunities. Feel free to reach out — I will get back to you within 24 hours."
+    "sub": "Currently a Node.js Developer at KOOLA — open to backend and AI/ML opportunities. Feel free to reach out — I will get back to you within 24 hours."
   },
   "resume": {
     "portfolioUrl": "https://phucvu3008.github.io/my-portfolio/",

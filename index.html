@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#fdfcfc" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#201d1d" media="(prefers-color-scheme: dark)" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -21,7 +23,6 @@
   <meta name="twitter:image" content="https://phucvu3008.github.io/my-portfolio/og-image.png" />
   <title>Evan Vu — Portfolio</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="alternate icon" href="favicon.ico" />
   <link rel="stylesheet" href="style.css" />
   <script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);else if(matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Vu Minh Phuc","alternateName":"Evan Vu","jobTitle":"Node.js Developer","worksFor":{"@type":"Organization","name":"KOOLA International Technology Solutions"},"alumniOf":{"@type":"CollegeOrUniversity","name":"Ton Duc Thang University"},"url":"https://phucvu3008.github.io/my-portfolio/","sameAs":["https://github.com/PhucVu3008","https://www.linkedin.com/in/evanvu","https://www.kaggle.com/phucvu3008"]}</script>
@@ -98,7 +99,7 @@
  ╚══════╝  ╚═══╝  ╚═╝  ╚═╝╚═╝  ╚═══╝     ╚═══╝   ╚═════╝
         </pre>
 
-        <span class="hero-badge">[*]  Node.js Developer @ KOOLA &nbsp;·&nbsp; open to new opportunities</span>
+        <span class="hero-badge">[*]  Node.js Developer @ KOOLA &nbsp;·&nbsp; open to backend &amp; AI opportunities</span>
         <p class="hero-name">Vu Minh Phuc <span class="hero-name-alias">— Evan</span></p>
         <h1 class="hero-headline">Backend Engineer &amp; AI/ML Enthusiast</h1>
         <p class="hero-tagline">
@@ -145,6 +146,10 @@
         and maintaining production backends with Fastify 4, TypeScript, and PostgreSQL, shipping
         a bilingual AI-powered website with Google Gemini + pgvector, and setting up
         Docker/CI-CD infrastructure.
+        <br /><br />
+        Currently building an internal ERP for An Binh Foods (~200 employees, dried-fruit
+        manufacturing) — now in development and pilot testing — alongside a face-attendance
+        kiosk module with ArcFace recognition and multi-stage anti-spoofing.
         <br /><br />
         On the AI side, I have hands-on experience in computer vision: face recognition with
         ArcFace, MediaPipe Face Mesh landmark detection, and a multi-stage anti-spoofing pipeline
@@ -239,76 +244,8 @@
     <div class="container">
       <h2 class="section-label reveal" id="exp-label">experience</h2>
 
-      <div class="experience-list">
-
-        <!-- KOOLA -->
-        <article class="exp-item reveal reveal-delay-1">
-          <div class="exp-meta">
-            <p class="exp-period">Jan 2026 — Present</p>
-            <p class="exp-company">KOOLA International Technology Solutions</p>
-          </div>
-          <div class="exp-body">
-            <h3 class="exp-role">Node.js Developer</h3>
-            <ul class="exp-bullets">
-              <li>Built and maintained the production backend for <strong>koola.vn</strong> using Fastify 4 + TypeScript, serving bilingual (Vi/EN) content with a full admin API secured by JWT access/refresh tokens.</li>
-              <li>Integrated Google Gemini API with <strong>pgvector</strong> semantic search on PostgreSQL to power an AI chat assistant — handling embedding generation, vector similarity queries, and streaming responses.</li>
-              <li>Designed raw-SQL repositories (no ORM) against PostgreSQL 16, authored migrations, and set up Prometheus health-check endpoints.</li>
-              <li>Containerised the entire stack (Fastify API + Next.js + Nginx + PostgreSQL) with Docker Compose and configured Cloudflare Tunnel for zero-trust ingress.</li>
-              <li>Shipped automated CI/CD via GitHub Actions: build, test, rsync deploy to VPS on every push to <code>main</code>.</li>
-              <li>Contributed face-attendance kiosk module to the company ERP: ArcFace recognition, MediaPipe Face Mesh landmark detection, and a multi-stage anti-spoofing pipeline (blink EAR + head-nod liveness + MiniFASNetV2).</li>
-            </ul>
-          </div>
-        </article>
-
-        <!-- Algorithmics -->
-        <article class="exp-item reveal reveal-delay-2">
-          <div class="exp-meta">
-            <p class="exp-period">Apr 2023 — Aug 2025</p>
-            <p class="exp-company">Algorithmics Vietnam</p>
-          </div>
-          <div class="exp-body">
-            <h3 class="exp-role">Programming Teacher</h3>
-            <ul class="exp-bullets">
-              <li>Independently led coding classes for students aged 7–18, covering Scratch, Python, and Lua.</li>
-              <li>Took full responsibility as the main instructor for multiple classes, ensuring lesson delivery, student engagement, and classroom management.</li>
-              <li>Adapted teaching methods to different age groups and learning styles, developing students' logical thinking and foundational programming skills.</li>
-              <li>Monitored student progress, provided constructive feedback, and maintained communication with parents.</li>
-            </ul>
-          </div>
-        </article>
-
-        <!-- mangoSTEEMS -->
-        <article class="exp-item reveal reveal-delay-3">
-          <div class="exp-meta">
-            <p class="exp-period">Aug 2022 — Dec 2022</p>
-            <p class="exp-company">mangoSTEEMS Vietnam</p>
-          </div>
-          <div class="exp-body">
-            <h3 class="exp-role">Teaching Assistant</h3>
-            <ul class="exp-bullets">
-              <li>Assisted the lead teacher in designing and organizing effective lesson plans tailored to student needs.</li>
-              <li>Collaborated with instructors to identify learning challenges and proposed appropriate interventions.</li>
-              <li>Provided additional instruction to students requiring extra support to grasp key concepts.</li>
-            </ul>
-          </div>
-        </article>
-
-        <!-- KDI Education -->
-        <article class="exp-item reveal reveal-delay-4">
-          <div class="exp-meta">
-            <p class="exp-period">Mar 2022 — Feb 2023</p>
-            <p class="exp-company">KDI Education</p>
-          </div>
-          <div class="exp-body">
-            <h3 class="exp-role">Teaching Assistant</h3>
-            <ul class="exp-bullets">
-              <li>Prepared teaching materials and set up necessary equipment before each class to ensure smooth lesson delivery.</li>
-              <li>Managed student attendance and maintained accurate records.</li>
-              <li>Assisted the lead teacher during lessons by supporting student engagement and reinforcing key concepts.</li>
-            </ul>
-          </div>
-        </article>
-
+      <div class="experience-list" id="experience-root">
+        <!-- Populated at runtime by script.js from data.json. -->
       </div>
     </div>
   </section>
@@ -432,7 +369,7 @@
 
       <h3 class="contact-headline reveal reveal-delay-1">Let's work<br />together.</h3>
       <p class="contact-sub reveal reveal-delay-2">
-        I am actively looking for AI/ML internships and entry-level opportunities.
+        Currently a Node.js Developer at KOOLA — open to backend and AI/ML opportunities.
         Feel free to reach out — I will get back to you within 24 hours.
       </p>
 
