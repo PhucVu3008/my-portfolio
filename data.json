@@ -122,6 +122,23 @@
   ],
   "projects": [
     {
+      "period": "2026 – now",
+      "category": "Full-Stack",
+      "name": "ANBINHFOODS ERP — Intelligent Manufacturing Platform",
+      "contributor": true,
+      "desc": "Company ERP system built for An Binh Foods, a dried-fruit manufacturer, covering the full operations loop: quotation, purchasing, warehouse, vacuum-drying production, quality, finance, and HR. Three services: React 18 + Vite frontend, Express 5 + Prisma + PostgreSQL 16 backend (155 models, ~90 services), and a FastAPI AI service with RAG chatbot and ReAct agent. My contributions (50 commits): warehouse receipt/issue slip UI with print and Excel export, maintenance request (YCSC) workflow refactor, purchase request detail layout, plus test suites and CI workflow.",
+      "tags": [
+        "React 18",
+        "Express 5",
+        "Prisma",
+        "PostgreSQL",
+        "FastAPI",
+        "TypeScript",
+        "Docker"
+      ],
+      "links": []
+    },
+    {
       "period": "2025 – now",
       "category": "Full-Stack",
       "name": "koola.vn — Company Website",
