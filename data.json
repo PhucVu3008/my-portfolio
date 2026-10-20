@@ -137,10 +137,6 @@
       ],
       "links": [
         {
-          "label": "github",
-          "href": "https://github.com/PhucVu3008/koola-website"
-        },
-        {
           "label": "live site",
           "href": "https://koola.vn"
         }
@@ -160,12 +156,7 @@
         "Docker",
         "JWT"
       ],
-      "links": [
-        {
-          "label": "github",
-          "href": "https://github.com/PhucVu3008/koola-demo"
-        }
-      ]
+      "links": []
     },
     {
       "period": "2025",
@@ -190,21 +181,18 @@
       "category": "Computer Vision",
       "name": "ERP Face Attendance Kiosk",
       "contributor": true,
-      "desc": "Built the entire face attendance kiosk module inside an ERP system. Implemented ArcFace-based face recognition with a multi-stage anti-spoofing pipeline: blink detection via Eye Aspect Ratio (EAR), head-nod liveness challenge, and passive liveness with MiniFASNetV2. Used MediaPipe Face Mesh for landmark detection and YuNet for robust face detection. Admin enrollment flow features Face ID–style auto-capture with pose validation.",
+      "desc": "Face attendance kiosk module built inside a company ERP system. Implemented ArcFace-based face recognition with a multi-stage anti-spoofing pipeline: blink detection via Eye Aspect Ratio (EAR), head-nod liveness challenge, and passive liveness with MiniFASNetV2. Used MediaPipe Face Mesh for landmark detection and YuNet for robust face detection. Admin enrollment flow features Face ID–style auto-capture with pose validation.",
       "tags": [
         "ArcFace",
         "MediaPipe",
+        "YuNet",
+        "MiniFASNetV2",
         "Anti-Spoofing",
         "Python",
         "TypeScript",
         "OpenCV"
       ],
-      "links": [
-        {
-          "label": "github",
-          "href": "https://github.com/phantanquoc/ERP_V6"
-        }
-      ]
+      "links": []
     },
     {
       "period": "2025",
